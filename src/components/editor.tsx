@@ -70,7 +70,14 @@ const Editor = ({
             enter: {
               key: "Enter",
               handler: () => {
-                return;
+                const text = quill.getText();
+                const addedImage = imageElementRef.current?.files?.[0] || null;
+                const isEmpty = !addedImage && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+                if (isEmpty) return;
+
+                const body = JSON.stringify(quill.getContents());
+
+                submitRef.current?.({ body, image: addedImage });
               },
             },
             shift_enter: {
@@ -129,12 +136,17 @@ const Editor = ({
     quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
   };
 
-  const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+  const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
   return (
     <div className="flex flex-col">
       <input type="file" accept="image/*" ref={imageElementRef} className="hidden" onChange={(e) => setImage(e.target.files![0])} />
-      <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
+      <div
+        className={cn(
+          "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white",
+          disabled && "opacity-50"
+        )}
+      >
         <div ref={containerRef} className="ql-custom h-full" />
         {!!image && (
           <div className="p-2">
