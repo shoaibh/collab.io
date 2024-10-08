@@ -12,16 +12,17 @@ const Editor = dyanmic(() => import("@/components/editor"), { ssr: false });
 
 type ChatInputProps = {
   placeholder: string;
+  conversationId: Id<"conversations">;
 };
 
 type CreateMessageValues = {
-  channelId: Id<"channels">;
+  conversationId: Id<"conversations">;
   workspaceId: Id<"workspaces">;
   body: string;
   image: Id<"_storage"> | undefined;
 };
 
-export const ChatInput = ({ placeholder }: ChatInputProps) => {
+export const MemberChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
   const [editorKey, setEditorKey] = useState(0);
   const [isPending, setIsPending] = useState(false);
 
@@ -29,7 +30,6 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
 
   const editorRef = useRef<Quill | null>(null);
 
-  const channelId = useChannelId();
   const workspaceId = useWorkspaceId();
 
   const { mutate: createMessage } = useCreateMessage();
@@ -41,7 +41,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       editorRef.current?.enable(false);
 
       const values: CreateMessageValues = {
-        channelId,
+        conversationId,
         workspaceId,
         body,
         image: undefined,

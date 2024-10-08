@@ -198,7 +198,14 @@ const Editor = ({
               <Button variant="outline" size="sm" onClick={onCancel} disabled={disabled}>
                 Cancel
               </Button>
-              <Button variant="outline" onClick={() => {}} size="sm" className="bg-[#007a5a] hover:bg-[#007a5a]/80 text-white">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onSubmit({ body: JSON.stringify(quillRef.current?.getContents()), image });
+                }}
+                size="sm"
+                className="bg-[#007a5a] hover:bg-[#007a5a]/80 text-white"
+              >
                 Save
               </Button>
             </div>
