@@ -79,6 +79,7 @@ export const MessageList = ({
               prevMessage.user?._id === message.user._id &&
               differenceInMinutes(new Date(message._creationTime), new Date(prevMessage._creationTime)) < TIME_THRESHOLD;
 
+            console.log({ m: message.memberId });
             return (
               <Message
                 key={message._id}

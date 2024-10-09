@@ -8,6 +8,7 @@ import { Header } from "../../channel/[channelId]/header";
 import { MemberHeader } from "./member-header";
 import { MemberChatInput } from "./member-chat-input";
 import { MessageList } from "@/components/message-list";
+import { usePanel } from "@/hooks/use-panel";
 
 type Conversation = {
   data: Doc<"conversations">;
@@ -16,6 +17,7 @@ type Conversation = {
 export const Conversation = ({ data }: Conversation) => {
   const memberId = useMemberId();
 
+  const { onOpenProfile } = usePanel();
   const { data: member, isLoading: memberLoading } = useGetMember({ id: memberId });
 
   const { results, status, loadMore } = useGetMessages({
@@ -32,7 +34,7 @@ export const Conversation = ({ data }: Conversation) => {
 
   return (
     <div className="flex flex-col h-full">
-      <MemberHeader memberName={member?.user.name} memberImage={member?.user.image} />
+      <MemberHeader memberName={member?.user.name} memberImage={member?.user.image} onClick={() => onOpenProfile(memberId)} />
       <MessageList
         data={results}
         variant="conversation"

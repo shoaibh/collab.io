@@ -22,7 +22,7 @@ const populateMember = (ctx: QueryCtx, memberId: Id<"members">) => {
 const populateReactions = (ctx: QueryCtx, messageId: Id<"messages">) => {
   return ctx.db
     .query("reactions")
-    .withIndex("by_messageId", (q) => q.eq("messageId", messageId))
+    .withIndex("by_message_id", (q) => q.eq("messageId", messageId))
     .collect();
 };
 
