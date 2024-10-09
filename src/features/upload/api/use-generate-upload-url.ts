@@ -24,24 +24,27 @@ export const useGenerateUploadUrl = () => {
   const isError = useMemo(() => status === "error", [status]);
   const isSettled = useMemo(() => status === "settled", [status]);
 
-  const mutate = useCallback(async (options: Options) => {
-    try {
-      setData(null);
-      setError(null);
-      setStatus("loading");
-      const response = await mutation();
-      options?.onSuccess?.(response);
-      setData(response);
-      return response;
-    } catch (error) {
-      setStatus("error");
-      options?.onError?.(error as Error);
-      if (options?.throwError) throw error;
-    } finally {
-      options.onSettled?.();
-      setStatus("settled");
-    }
-  }, []);
+  const mutate = useCallback(
+    async (options: Options) => {
+      try {
+        setData(null);
+        setError(null);
+        setStatus("loading");
+        const response = await mutation();
+        options?.onSuccess?.(response);
+        setData(response);
+        return response;
+      } catch (error) {
+        setStatus("error");
+        options?.onError?.(error as Error);
+        if (options?.throwError) throw error;
+      } finally {
+        options.onSettled?.();
+        setStatus("settled");
+      }
+    },
+    [mutation]
+  );
 
   return { mutate, isLoading, isSuccess, isError, isSettled, data, error };
 };

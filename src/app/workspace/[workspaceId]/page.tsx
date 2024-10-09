@@ -33,7 +33,7 @@ const WorkspaceIdPage = () => {
     } else if (!open && isAdmin) {
       setOpen(true);
     }
-  }, [isAdmin, memberLoading, member, workspaceLoading, workspace, workspaceId, channelsLoading, channelId, router, setOpen]);
+  }, [isAdmin, memberLoading, member, workspaceLoading, workspace, workspaceId, channelsLoading, channelId, router, setOpen, open]);
 
   if (workspaceLoading || channelsLoading) {
     return (

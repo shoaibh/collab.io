@@ -7,6 +7,7 @@ import { TooltipTrigger } from "@radix-ui/react-tooltip";
 
 type EmojiPopoverProps = PropsWithChildren<{
   hint?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onEmojiSelect: (emoji: any) => void;
 }>;
 
@@ -14,6 +15,7 @@ export const EmojiPopover = ({ children, hint = "Emoji", onEmojiSelect }: EmojiP
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSelect = (emoji: any) => {
     onEmojiSelect(emoji);
     setPopoverOpen(false);

@@ -1,14 +1,12 @@
-import React from "react";
-import { Doc } from "../../../../../../convex/_generated/dataModel";
-import { useMemberId } from "@/hooks/use-member-id";
+import { MessageList } from "@/components/message-list";
 import { useGetMember } from "@/features/members/api/use-get-member";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
-import { Loader } from "lucide-react";
-import { Header } from "../../channel/[channelId]/header";
-import { MemberHeader } from "./member-header";
-import { MemberChatInput } from "./member-chat-input";
-import { MessageList } from "@/components/message-list";
+import { useMemberId } from "@/hooks/use-member-id";
 import { usePanel } from "@/hooks/use-panel";
+import { Loader } from "lucide-react";
+import { Doc } from "../../../../../../convex/_generated/dataModel";
+import { MemberChatInput } from "./member-chat-input";
+import { MemberHeader } from "./member-header";
 
 type Conversation = {
   data: Doc<"conversations">;

@@ -1,11 +1,10 @@
-import React, { useRef, useState } from "react";
+import { useCreateMessage } from "@/features/messages/api/use-create-message";
+import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import dyanmic from "next/dynamic";
 import Quill from "quill";
-import { useCreateMessage } from "@/features/messages/api/use-create-message";
-import { useChannelId } from "@/hooks/use-channel-id";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { Id } from "../../../../../../convex/_generated/dataModel";
 
 const Editor = dyanmic(() => import("@/components/editor"), { ssr: false });
@@ -82,6 +81,7 @@ export const MemberChatInput = ({ placeholder, conversationId }: ChatInputProps)
       });
       setEditorKey((prevKey) => prevKey + 1);
     } catch (e) {
+      console.log(e);
       toast.error("Failed to send message");
     } finally {
       editorRef.current?.enable(false);

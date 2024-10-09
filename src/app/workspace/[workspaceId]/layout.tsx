@@ -11,9 +11,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { Thread } from "@/features/messages/components/thread";
 import { Profile } from "@/features/members/components/profile";
 
-type WorkspaceLayoutProp = {};
-
-const WorkspaceLayout = ({ children }: PropsWithChildren<WorkspaceLayoutProp>) => {
+const WorkspaceLayout = ({ children }: PropsWithChildren) => {
   const { parentMessageId, profileMemberId, onClose } = usePanel();
 
   const showPanel = !!parentMessageId || !!profileMemberId;

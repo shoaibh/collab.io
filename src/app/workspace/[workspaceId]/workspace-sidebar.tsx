@@ -17,13 +17,13 @@ export const WorkspaceSidebar = () => {
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
-  const [_, setOpen] = useCreateChannelModal();
+  const [, setOpen] = useCreateChannelModal();
   const { data: currentMember, isLoading: memberLoading } = useCurrentMember({ workspaceId });
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
   const { data: channels } = useGetChannels({ workspaceId: workspaceId });
   const { data: members, isLoading: membersLoading } = useGetMembers({ workspaceId: workspaceId });
 
-  if (workspaceLoading || memberLoading)
+  if (workspaceLoading || memberLoading || membersLoading)
     return (
       <div className="flex flex-col bg-[#5E2C5F] h-full items-center justify-center">
         <Loader className="size-5 animate-spin text-white" />

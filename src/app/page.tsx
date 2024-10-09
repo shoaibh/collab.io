@@ -22,7 +22,7 @@ export default function Home() {
     } else if (!createWorkspaceModal) {
       setCreateWorkspaceModal(true);
     }
-  }, [workspaceId, isLoading]);
+  }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal]);
   return (
     <div>
       <UserButton />

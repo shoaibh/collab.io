@@ -64,7 +64,7 @@ export const Message = ({
   isCompact,
   hideThreadButton,
 }: MessageProps) => {
-  const { parentMessageId, profileMemberId, onOpenProfile, onOpenMessage, onClose } = usePanel();
+  const { parentMessageId, onOpenProfile, onOpenMessage, onClose } = usePanel();
 
   const [ConfirmDialog, confirm] = useConfirm("Delete Message", "are you sure you want to delete the message");
 

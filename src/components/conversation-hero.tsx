@@ -1,5 +1,3 @@
-import { format } from "date-fns";
-import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export const ConversationHero = ({ name = "Member", image }: { name?: string; image: string | undefined }) => {

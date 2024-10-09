@@ -82,6 +82,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       });
       setEditorKey((prevKey) => prevKey + 1);
     } catch (e) {
+      console.log(e);
       toast.error("Failed to send message");
     } finally {
       editorRef.current?.enable(false);

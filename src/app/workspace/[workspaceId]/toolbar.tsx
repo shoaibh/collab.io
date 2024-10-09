@@ -8,13 +8,11 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { useGetChannel } from "@/features/channels/api/use-get-channel";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Info, Search } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -49,11 +47,19 @@ export const Toolbar = () => {
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Suggestions">
-              {channels?.map((channel) => <CommandItem onSelect={() => onSearchClick(channel._id, "channel")}>{channel.name}</CommandItem>)}
+              {channels?.map((channel) => (
+                <CommandItem key={channel._id} onSelect={() => onSearchClick(channel._id, "channel")}>
+                  {channel.name}
+                </CommandItem>
+              ))}
             </CommandGroup>
             <CommandSeparator />
             <CommandGroup heading="Members">
-              {members?.map((member) => <CommandItem onSelect={() => onSearchClick(member._id, "member")}>{member.user.name}</CommandItem>)}
+              {members?.map((member) => (
+                <CommandItem key={member._id} onSelect={() => onSearchClick(member._id, "member")}>
+                  {member.user.name}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </CommandDialog>

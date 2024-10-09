@@ -34,7 +34,10 @@ export const InviteModal = ({ open, setOpen, name, joinCode }: InviteModalProps)
         onSuccess: () => {
           toast.success("New join code generated");
         },
-        onError: (error) => toast.error("failed to generate a new code"),
+        onError: (error) => {
+          console.log(error);
+          toast.error("failed to generate a new code");
+        },
       }
     );
   };
