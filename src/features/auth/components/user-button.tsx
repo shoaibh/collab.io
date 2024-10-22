@@ -41,7 +41,7 @@ export const UserButton = () => {
           <AvatarFallback className="rounded-md bg-sky-500 text-white">{avatarFallback}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" side="right" className="w-60">
+      <DropdownMenuContent align="end" side="right" className="w-60">
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="size-4 mr-2" /> Log Out
         </DropdownMenuItem>

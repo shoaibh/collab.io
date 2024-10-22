@@ -1,7 +1,4 @@
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
-import { Doc } from "../../../../convex/_generated/dataModel";
-import { ChevronDown, ListFilter, SquarePen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,9 +6,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Hint } from "@/components/hint";
-import { SettingsModal } from "./settings-modal";
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { Doc } from "../../../../convex/_generated/dataModel";
 import { InviteModal } from "./invite-modal";
+import { SettingsModal } from "./settings-modal";
+import { WorkspaceSwitcher } from "./workspace-switcher";
 
 export const WorkspaceHeader = ({ workspace, isAdmin }: { workspace: Doc<"workspaces">; isAdmin: boolean }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -20,7 +20,8 @@ export const WorkspaceHeader = ({ workspace, isAdmin }: { workspace: Doc<"worksp
     <>
       <InviteModal open={inviteOpen} setOpen={setInviteOpen} name={workspace.name} joinCode={workspace.joinCode} />
       <SettingsModal open={settingsOpen} setOpen={setSettingsOpen} initialValue={workspace.name} />
-      <div className="flex items-center justify-between px-4 h-[49px] gap-0.5">
+      <div className="flex items-center justify-between px-4 pt-4 h-[49px] gap-0.5">
+        <WorkspaceSwitcher />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button size="sm" variant="transparent" className="font-semibold text-lg w-auto p-1.5 overflow-hidden flex items-center">
@@ -53,18 +54,6 @@ export const WorkspaceHeader = ({ workspace, isAdmin }: { workspace: Doc<"worksp
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-        <div className="flex items-center gap-0.5">
-          <Hint label="Filter" side="bottom">
-            <Button variant="transparent" size="sm">
-              <ListFilter className="size-4" />
-            </Button>
-          </Hint>
-          <Hint label="New message" side="bottom">
-            <Button variant="transparent" size="sm">
-              <SquarePen className="size-4" />
-            </Button>
-          </Hint>
-        </div>
       </div>
     </>
   );

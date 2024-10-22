@@ -37,6 +37,7 @@ export const Conversation = ({ data }: Conversation) => {
         data={results}
         variant="conversation"
         memberImage={member?.user.image}
+        memberId={member?._id}
         memberName={member?.user.name}
         loadMore={loadMore}
         isLoadingMore={status === "LoadingMore"}

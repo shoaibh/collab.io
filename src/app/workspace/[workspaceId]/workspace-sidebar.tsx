@@ -1,7 +1,7 @@
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
+import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal, X } from "lucide-react";
 import React from "react";
 import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
@@ -13,7 +13,7 @@ import { useCreateChannelModal } from "@/features/channels/store/use-create-chan
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useMemberId } from "@/hooks/use-member-id";
 
-export const WorkspaceSidebar = () => {
+export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void }) => {
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
@@ -39,7 +39,8 @@ export const WorkspaceSidebar = () => {
     );
 
   return (
-    <div className="flex flex-col bg-[#5E2C5F] h-full">
+    <div className="flex flex-col bg-[#5E2C5F] relative h-full pt-10 lg:pt-0">
+      <X className="absolute cursor-pointer top-2 right-2 lg:hidden text-white" onClick={toggleSidebar} />
       <WorkspaceHeader workspace={workspace} isAdmin={currentMember.role === "admin"} />
       <div className="flex flex-col px-2 mt-3">
         <SidebarItem label="Threads" icon={MessageSquareText} id="threads" />

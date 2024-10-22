@@ -1,10 +1,23 @@
+import { usePanel } from "@/hooks/use-panel";
+import { Id } from "../../convex/_generated/dataModel";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-export const ConversationHero = ({ name = "Member", image }: { name?: string; image: string | undefined }) => {
+export const ConversationHero = ({
+  memberId,
+  name = "Member",
+  image,
+}: {
+  memberId?: Id<"members">;
+  name?: string;
+  image: string | undefined;
+}) => {
   const avatarFallback = name.charAt(0).toUpperCase();
+
+  const { onOpenProfile } = usePanel();
+
   return (
     <div className="mt-[88px] mx-5 mb-4">
-      <div className="flex items-center gap-x-1 mb-2">
+      <div className="flex items-center gap-x-1 mb-2 cursor-pointer hover:underline" onClick={() => memberId && onOpenProfile(memberId)}>
         <Avatar className="size-14 mr-2">
           <AvatarImage src={image} />
           <AvatarFallback>{avatarFallback}</AvatarFallback>

@@ -27,7 +27,7 @@ export const getById = query({
 
     if (!currentMember) return null;
 
-    const user = await populateUser(ctx, userId);
+    const user = await populateUser(ctx, member.userId);
 
     if (!user) return null;
 

@@ -8,6 +8,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { UserButton } from "@/features/auth/components/user-button";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
@@ -34,7 +35,7 @@ export const Toolbar = () => {
   };
 
   return (
-    <nav className="bg-[#481349] flex items-center justify-between h-10 p-1.5">
+    <nav className="bg-[#481349] flex items-center justify-between h-14 p-1">
       <div className="flex-1"></div>
       <div className="min-w-[280px] max-w-[642px] grow-[2] shrink">
         <Button onClick={() => setOpen(true)} size="sm" className="bg-accent/25 hover:bg-accent/25 w-full justify-start h-7 px-2">
@@ -64,10 +65,8 @@ export const Toolbar = () => {
           </CommandList>
         </CommandDialog>
       </div>
-      <div className="ml-auto flex-1 flex items-center justify-end">
-        <Button variant="transparent" size="sm">
-          <Info className="size-5 text-white" />
-        </Button>
+      <div className="ml-auto flex-1 flex items-center justify-end mr-2">
+        <UserButton />
       </div>
     </nav>
   );

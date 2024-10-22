@@ -21,6 +21,7 @@ const formatDateLabel = (dateStr: string) => {
 type MessageListProps = {
   channelName?: string;
   memberName?: string;
+  memberId?: Id<"members">;
   memberImage?: string;
   channelCreationTime?: number;
   variant?: "channel" | "thread" | "conversation";
@@ -33,6 +34,7 @@ type MessageListProps = {
 export const MessageList = ({
   channelName,
   memberName,
+  memberId,
   memberImage,
   channelCreationTime,
   variant,
@@ -132,7 +134,7 @@ export const MessageList = ({
         </div>
       )}
       {variant === "channel" && channelName && channelCreationTime && <ChannelHero name={channelName} creationTime={channelCreationTime} />}
-      {variant === "conversation" && <ConversationHero name={memberName} image={memberImage} />}
+      {variant === "conversation" && <ConversationHero name={memberName} memberId={memberId} image={memberImage} />}
     </div>
   );
 };
