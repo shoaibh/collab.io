@@ -16,25 +16,37 @@ export const SignInCard = ({ setState }: { setState: (state: SignInFlow) => void
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setIsLoading(true);
-    signIn("password", { name, email: generateGibberishEmail(), password: generatePassword(), flow: "signUp" })
+    signIn("password", { name, email: generateGibberishEmail(), password: generatePassword(), isGuest: true, flow: "signUp" })
       .catch((e) => {
         console.log(e);
         setError("Something went wrong");
       })
       .finally(() => {
         setIsLoading(false);
+        router.replace("/");
       });
   };
 
   const { signIn } = useAuthActions();
 
   const handleSignIn = (value: "github" | "google") => {
-    signIn(value);
+    setIsLoading(true);
+
+    signIn(value)
+      .catch((e) => {
+        console.log(e);
+        setError("Something went wrong");
+      })
+      .finally(() => {
+        setIsLoading(false);
+        router.replace("/");
+      });
   };
 
   return (

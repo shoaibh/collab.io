@@ -33,6 +33,7 @@ export const UserButton = () => {
 
   const avatarFallback = name!.charAt(0).toUpperCase();
 
+  console.log({ image });
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none relative">
@@ -41,8 +42,13 @@ export const UserButton = () => {
           <AvatarFallback className="rounded-md bg-sky-500 text-white">{avatarFallback}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" side="right" className="w-60">
-        <DropdownMenuItem onClick={handleLogout}>
+      <DropdownMenuContent align="start" side="left" className="w-60">
+        <DropdownMenuItem className="cursor-text block select-text" onClick={(e) => e.preventDefault()}>
+          <div className="text-sm font-semibold">{data.name}</div>
+          <div className="text-xs text-muted-foreground">{data.email}</div>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
           <LogOut className="size-4 mr-2" /> Log Out
         </DropdownMenuItem>
       </DropdownMenuContent>

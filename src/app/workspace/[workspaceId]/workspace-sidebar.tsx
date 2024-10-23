@@ -39,7 +39,7 @@ export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void
     );
 
   return (
-    <div className="flex flex-col bg-[#5E2C5F] relative h-full pt-10 lg:pt-0">
+    <div className="flex flex-col bg-[#634029]/90 relative h-full pt-10 lg:pt-0">
       <X className="absolute cursor-pointer top-2 right-2 lg:hidden text-white" onClick={toggleSidebar} />
       <WorkspaceHeader workspace={workspace} isAdmin={currentMember.role === "admin"} />
       <div className="flex flex-col px-2 mt-3">
