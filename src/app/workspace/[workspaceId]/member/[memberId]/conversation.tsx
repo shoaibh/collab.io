@@ -1,9 +1,9 @@
 import { MessageList } from "@/components/message-list";
+import { LogoLoader } from "@/components/ui/loader";
 import { useGetMember } from "@/features/members/api/use-get-member";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
 import { useMemberId } from "@/hooks/use-member-id";
 import { usePanel } from "@/hooks/use-panel";
-import { Loader } from "lucide-react";
 import { Doc } from "../../../../../../convex/_generated/dataModel";
 import { MemberChatInput } from "./member-chat-input";
 import { MemberHeader } from "./member-header";
@@ -25,7 +25,7 @@ export const Conversation = ({ data }: Conversation) => {
   if (memberLoading || status === "LoadingFirstPage") {
     return (
       <div className="h-full flex items-center justify-center">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
+        <LogoLoader />
       </div>
     );
   }

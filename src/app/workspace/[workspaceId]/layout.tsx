@@ -1,10 +1,11 @@
 "use client";
 
+import { LogoLoader } from "@/components/ui/loader";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Profile } from "@/features/members/components/profile";
 import { Thread } from "@/features/messages/components/thread";
 import { usePanel } from "@/hooks/use-panel";
-import { Loader, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { PropsWithChildren, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { Toolbar } from "./toolbar";
@@ -27,7 +28,7 @@ const RightSideBar = ({
         <Profile memberId={profileMemberId as Id<"members">} onClose={onClose} />
       ) : (
         <div className="flex h-full items-center justify-center">
-          <Loader className="size-5 animate-spin text-muted-foreground " />
+          <LogoLoader />
         </div>
       )}
     </>
@@ -50,7 +51,7 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
       <Toolbar />
       <div className="flex h-[calc(100vh-56px)] relative">
         <button
-          className="lg:hidden flex flex-col bg-[#5E2C5F] h-full p-2 top-4 left-4 z-10"
+          className="lg:hidden flex flex-col bg-[#634029]/90 h-full p-2 top-4 left-4 z-10"
           onClick={toggleSidebar}
           aria-label="Toggle sidebar"
         >
@@ -58,7 +59,7 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
         </button>
 
         <div
-          className={`fixed top-0 left-0 h-full w-64 bg-[#5E2C5F] z-20 transition-transform duration-300 transform ${
+          className={`fixed top-0 left-0 h-full w-64 bg-[#634029]/90 z-20 transition-transform duration-300 transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:hidden lg:translate-x-0`}
         >
@@ -68,7 +69,7 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
         {/* Backdrop when the sidebar is open on mobile */}
         {isSidebarOpen && <div className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden" onClick={toggleSidebar} />}
         <ResizablePanelGroup direction="horizontal" autoSaveId={"collab-workspace-layout"}>
-          <ResizablePanel defaultSize={20} minSize={11} className="bg-[#5E2C5F] hidden lg:block">
+          <ResizablePanel defaultSize={20} minSize={11} className="bg-[#634029]/90 hidden lg:block">
             <WorkspaceSidebar />
           </ResizablePanel>
           <ResizableHandle withHandle />

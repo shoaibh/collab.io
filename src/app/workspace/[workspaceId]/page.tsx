@@ -1,11 +1,12 @@
 "use client";
 
+import { LogoLoader } from "@/components/ui/loader";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { Loader, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
@@ -38,7 +39,7 @@ const WorkspaceIdPage = () => {
   if (workspaceLoading || channelsLoading) {
     return (
       <div className="h-full flex-1 flex items-center justify-center flex-col gap-2">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
+        <LogoLoader />
       </div>
     );
   }

@@ -1,13 +1,13 @@
-import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
-import React, { useState } from "react";
-import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { Message } from "./message";
-import { ChannelHero } from "./channel-hero";
-import { Id } from "../../convex/_generated/dataModel";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
-import { Loader } from "lucide-react";
+import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { useState } from "react";
+import { Id } from "../../convex/_generated/dataModel";
+import { ChannelHero } from "./channel-hero";
 import { ConversationHero } from "./conversation-hero";
+import { Message } from "./message";
+import { LogoLoader } from "./ui/loader";
 
 const TIME_THRESHOLD = 2;
 
@@ -129,7 +129,7 @@ export const MessageList = ({
         <div className="text-center my-2 relative">
           <hr className="absolute top-1/2 left-0 right-0 w-full border-t border-gray-300" />
           <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
-            <Loader className="size-4 animate-spin" />
+            <LogoLoader />
           </span>
         </div>
       )}

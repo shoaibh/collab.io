@@ -1,17 +1,17 @@
-import { useCurrentMember } from "@/features/members/api/use-current-member";
-import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal, X } from "lucide-react";
-import React from "react";
-import { WorkspaceHeader } from "./workspace-header";
-import { SidebarItem } from "./sidebar-item";
+import { LogoLoader } from "@/components/ui/loader";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
-import { WorkspaceSection } from "./workspace-section";
-import { useGetMembers } from "@/features/members/api/use-get-members";
-import { UserItem } from "./user-item";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useMemberId } from "@/hooks/use-member-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { AlertTriangle, HashIcon, MessageSquareText, SendHorizonal, X } from "lucide-react";
+import { SidebarItem } from "./sidebar-item";
+import { UserItem } from "./user-item";
+import { WorkspaceHeader } from "./workspace-header";
+import { WorkspaceSection } from "./workspace-section";
 
 export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void }) => {
   const memberId = useMemberId();
@@ -25,14 +25,14 @@ export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void
 
   if (workspaceLoading || memberLoading || membersLoading)
     return (
-      <div className="flex flex-col bg-[#5E2C5F] h-full items-center justify-center">
-        <Loader className="size-5 animate-spin text-white" />
+      <div className="flex flex-col bg-[#634029]/90 h-full items-center justify-center">
+        <LogoLoader />
       </div>
     );
 
   if (!workspace || !currentMember)
     return (
-      <div className="flex flex-col gap-y-2 bg-[#5E2C5F] h-full items-center justify-center">
+      <div className="flex flex-col gap-y-2 bg-[#634029]/90 h-full items-center justify-center">
         <AlertTriangle className="size-5 text-white" />
         <p className="text-white text-sm">Workspace or member not found</p>
       </div>

@@ -71,7 +71,7 @@ export const Toolbar = () => {
         </div>
       )}
       <nav className="bg-[#a16c47]/40 flex items-center justify-between h-14 p-1">
-        <div className="flex-1 ml-2">
+        <div className="flex-1 flex items-end ml-4">
           <Image src="/collab-logo.png" alt="logo" width={40} height={70} />
         </div>
         <div className="min-w-[280px] max-w-[642px] grow-[2] shrink">

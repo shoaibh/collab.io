@@ -1,9 +1,10 @@
 "use client";
 
+import { LogoLoader } from "@/components/ui/loader";
 import { useCreateOrGetConversations } from "@/features/conversations/api/use-create-or-get-conversation";
 import { useMemberId } from "@/hooks/use-member-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { AlertTriangle, Loader } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Conversation } from "./conversation";
@@ -21,7 +22,7 @@ const MemberIdPage = () => {
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
+        <LogoLoader />
       </div>
     );
   }

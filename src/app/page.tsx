@@ -3,11 +3,11 @@
 import { useDefaultJoin } from "@/features/workspaces/api/use-default-join";
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
-import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { Id } from "../../convex/_generated/dataModel";
 import { toast } from "sonner";
+import { LogoLoader } from "@/components/ui/loader";
 
 const DEFAULT_WORKSPACE = "k173q3bmgd547p3b9z97993hcs7341a2";
 
@@ -19,7 +19,7 @@ export default function Home() {
 
   const workspaceId = useMemo(() => data?.[0]?._id, [data]);
 
-  const { mutate, isLoading: isJoiningWorkspace } = useDefaultJoin();
+  const { mutate } = useDefaultJoin();
 
   useEffect(() => {
     if (isLoading) return;
@@ -35,13 +35,13 @@ export default function Home() {
             toast.success("Workspace joined");
           },
           onError: () => toast.error("Failed to join workspace"),
-        },
+        }
       );
     }
-  }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal]);
+  }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal, mutate]);
   return (
     <div className="h-full flex items-center justify-center">
-      <Loader className="size-6 animate-spin text-muted-foreground" />
+      <LogoLoader />
     </div>
   );
 }

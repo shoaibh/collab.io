@@ -1,19 +1,20 @@
-import React, { useRef, useState } from "react";
-import { Id } from "../../../../convex/_generated/dataModel";
-import { Button } from "@/components/ui/button";
-import { AlertTriangle, Loader, XIcon } from "lucide-react";
-import { useGetMessage } from "../api/use-get-message";
 import { Message } from "@/components/message";
+import { Button } from "@/components/ui/button";
+import { LogoLoader } from "@/components/ui/loader";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
+import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { AlertTriangle, Loader, XIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import Quill from "quill";
-import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
-import { useCreateMessage } from "../api/use-create-message";
-import { useChannelId } from "@/hooks/use-channel-id";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { useCreateMessage } from "../api/use-create-message";
+import { useGetMessage } from "../api/use-get-message";
 import { useGetMessages } from "../api/use-get-messages";
-import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
@@ -143,7 +144,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
           </Button>
         </div>
         <div className="flex h-full items-center justify-center">
-          <Loader className="size-5 animate-spin text-muted-foreground " />
+          <LogoLoader />
         </div>
       </div>
     );

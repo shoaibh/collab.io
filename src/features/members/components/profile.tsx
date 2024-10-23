@@ -1,17 +1,5 @@
-import React from "react";
-import { Id } from "../../../../convex/_generated/dataModel";
-import { useGetMember } from "../api/use-get-member";
-import { Button } from "@/components/ui/button";
-import { AlertTriangle, ChevronDownIcon, Loader, MailIcon, XIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { useUpdateMember } from "../api/use-update-member";
-import { useDeleteMember } from "../api/use-delete-member";
-import { useCurrentMember } from "../api/use-current-member";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { toast } from "sonner";
-import { useConfirm } from "@/hooks/use-confirm";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +7,18 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { LogoLoader } from "@/components/ui/loader";
+import { Separator } from "@/components/ui/separator";
+import { useConfirm } from "@/hooks/use-confirm";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { AlertTriangle, ChevronDownIcon, MailIcon, XIcon } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { useCurrentMember } from "../api/use-current-member";
+import { useDeleteMember } from "../api/use-delete-member";
+import { useGetMember } from "../api/use-get-member";
+import { useUpdateMember } from "../api/use-update-member";
 
 type ProfileProps = {
   memberId: Id<"members">;
@@ -109,7 +109,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
           </Button>
         </div>
         <div className="flex h-full items-center justify-center">
-          <Loader className="size-5 animate-spin text-muted-foreground " />
+          <LogoLoader />
         </div>
       </div>
     );
