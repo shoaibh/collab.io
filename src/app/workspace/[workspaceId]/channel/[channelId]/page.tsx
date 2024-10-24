@@ -8,6 +8,7 @@ import { useChannelId } from "@/hooks/use-channel-id";
 import { TriangleAlert } from "lucide-react";
 import { ChatInput } from "./chat-input";
 import { Header } from "./header";
+import { MediaRoom } from "@/components/media-room";
 
 const ChannelIdPage = () => {
   const channelId = useChannelId();
@@ -34,17 +35,22 @@ const ChannelIdPage = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title={channel.name} />
-      <MessageList
-        channelName={channel.name}
-        channelCreationTime={channel._creationTime}
-        data={messages}
-        loadMore={loadMore}
-        isLoadingMore={status === "LoadingMore"}
-        canLoadMore={status === "CanLoadMore"}
-        variant="channel"
-      />
-      <ChatInput placeholder={`Message #${channel.name}`} />
+      {channel.type === "text" && (
+        <>
+          <Header title={channel.name} />
+          <MessageList
+            channelName={channel.name}
+            channelCreationTime={channel._creationTime}
+            data={messages}
+            loadMore={loadMore}
+            isLoadingMore={status === "LoadingMore"}
+            canLoadMore={status === "CanLoadMore"}
+            variant="channel"
+          />
+          <ChatInput placeholder={`Message #${channel.name}`} />
+        </>
+      )}
+      {channel.type === "connect" && <MediaRoom channelId={channel._id} />}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import { toast } from "sonner";
 import { LogoLoader } from "@/components/ui/loader";
 
-const DEFAULT_WORKSPACE = "k173q3bmgd547p3b9z97993hcs7341a2";
+const DEFAULT_WORKSPACE = "k175ksv2c2kcm82bat2bc46y9n7363wt";
 
 export default function Home() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function Home() {
             toast.success("Workspace joined");
           },
           onError: () => toast.error("Failed to join workspace"),
-        }
+        },
       );
     }
   }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal, mutate]);

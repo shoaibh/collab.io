@@ -1,4 +1,4 @@
-import { internalMutation, mutation } from "./_generated/server";
+import { internalMutation } from "./_generated/server";
 
 // Function to delete guest users and their associated authAccounts
 export const deleteGuestUsers = internalMutation(async ({ db }) => {

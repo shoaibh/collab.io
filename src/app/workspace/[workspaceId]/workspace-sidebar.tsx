@@ -7,7 +7,7 @@ import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useMemberId } from "@/hooks/use-member-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { AlertTriangle, HashIcon, MessageSquareText, SendHorizonal, X } from "lucide-react";
+import { AlertTriangle, HashIcon, MessageSquareText, SendHorizonal, VideoIcon, X } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { UserItem } from "./user-item";
 import { WorkspaceHeader } from "./workspace-header";
@@ -53,7 +53,7 @@ export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void
             variant={channelId === item._id ? "active" : "default"}
             key={item._id}
             label={item.name}
-            icon={HashIcon}
+            icon={item.type === "text" ? HashIcon : VideoIcon}
             id={item._id}
           />
         ))}

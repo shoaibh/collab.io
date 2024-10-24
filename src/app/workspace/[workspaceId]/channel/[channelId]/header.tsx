@@ -52,7 +52,7 @@ export const Header = ({ title }: { title: string }) => {
         onError: () => {
           toast.error("Error deleting");
         },
-      }
+      },
     );
   };
 
@@ -72,7 +72,7 @@ export const Header = ({ title }: { title: string }) => {
         onError: () => {
           toast.error("Failed to update channel");
         },
-      }
+      },
     );
   };
 
@@ -82,7 +82,7 @@ export const Header = ({ title }: { title: string }) => {
       <div className="bg-white border-b h-[50px] flex items-center px-4 overflow-hidden">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="ghost" className="text-lg font-semibold px-2 overflow-hidden w-auto">
+            <Button variant="ghost" className="text-lg text-black font-semibold px-2 overflow-hidden w-auto">
               <span># {title}</span>
               <FaChevronDown className="size-2.5 ml-2" />
             </Button>

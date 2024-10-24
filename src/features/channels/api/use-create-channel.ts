@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { name: string; workspaceId: Id<"workspaces"> };
+type RequestType = { name: string; workspaceId: Id<"workspaces">; type: "text" | "connect" };
 type ResponseType = Id<"channels"> | null;
 
 type Options = {
@@ -45,7 +45,7 @@ export const useCreateChannel = () => {
         setStatus("settled");
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return { mutate, isLoading, isSuccess, isError, isSettled, data, error };
