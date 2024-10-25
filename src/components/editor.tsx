@@ -24,6 +24,7 @@ type EditorProps = {
   defaultValue?: Delta | Op[];
   disabled?: boolean;
   innerRef?: MutableRefObject<Quill | null>;
+  draggedImageSrc?: File | null;
 };
 
 const Editor = ({
@@ -34,6 +35,7 @@ const Editor = ({
   defaultValue = [],
   disabled = false,
   innerRef,
+  draggedImageSrc,
 }: EditorProps) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -46,6 +48,10 @@ const Editor = ({
   const defaultValueRef = useRef(defaultValue);
   const disabledRef = useRef(disabled);
   const imageElementRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (draggedImageSrc) setImage(draggedImageSrc);
+  }, [draggedImageSrc]);
 
   useLayoutEffect(() => {
     submitRef.current = onSubmit;
@@ -149,7 +155,7 @@ const Editor = ({
       <div
         className={cn(
           "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white",
-          disabled && "opacity-50"
+          disabled && "opacity-50",
         )}
       >
         <div ref={containerRef} className="ql-custom h-full" />
@@ -223,7 +229,7 @@ const Editor = ({
               variant="ghost"
               className={cn(
                 "ml-auto",
-                !isEmpty ? "bg-[#007a5a] hover:bg-[#007a5a]/80 text-white" : "bg-white hover:bg-white text-muted-foreground"
+                !isEmpty ? "bg-[#007a5a] hover:bg-[#007a5a]/80 text-white" : "bg-white hover:bg-white text-muted-foreground",
               )}
               onClick={() => {
                 onSubmit({ body: JSON.stringify(quillRef.current?.getContents()), image });

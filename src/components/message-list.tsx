@@ -61,7 +61,7 @@ export const MessageList = ({
 
       return groups;
     },
-    {} as Record<string, typeof data>
+    {} as Record<string, typeof data>,
   );
 
   return (
@@ -81,7 +81,6 @@ export const MessageList = ({
               prevMessage.user?._id === message.user._id &&
               differenceInMinutes(new Date(message._creationTime), new Date(prevMessage._creationTime)) < TIME_THRESHOLD;
 
-            console.log({ m: message.memberId });
             return (
               <Message
                 key={message._id}
@@ -118,7 +117,7 @@ export const MessageList = ({
                   loadMore?.();
                 }
               },
-              { threshold: 1.0 }
+              { threshold: 1.0 },
             );
             observer.observe(el);
             return () => observer.disconnect();

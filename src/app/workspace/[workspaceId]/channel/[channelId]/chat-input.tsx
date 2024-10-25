@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dyanmic from "next/dynamic";
 import Quill from "quill";
 import { useCreateMessage } from "@/features/messages/api/use-create-message";
@@ -12,6 +12,7 @@ const Editor = dyanmic(() => import("@/components/editor"), { ssr: false });
 
 type ChatInputProps = {
   placeholder: string;
+  draggedImageSrc?: File | null;
 };
 
 type CreateMessageValues = {
@@ -21,9 +22,14 @@ type CreateMessageValues = {
   image: Id<"_storage"> | undefined;
 };
 
-export const ChatInput = ({ placeholder }: ChatInputProps) => {
+export const ChatInput = ({ placeholder, draggedImageSrc }: ChatInputProps) => {
   const [editorKey, setEditorKey] = useState(0);
   const [isPending, setIsPending] = useState(false);
+  const [draggedImage, setDraggedImage] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (draggedImageSrc) setDraggedImage(draggedImageSrc);
+  }, [draggedImageSrc]);
 
   const { mutate: generateUploadUrl } = useGenerateUploadUrl();
 
@@ -81,6 +87,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         throwError: true,
       });
       setEditorKey((prevKey) => prevKey + 1);
+      setDraggedImage(null);
     } catch (e) {
       console.log(e);
       toast.error("Failed to send message");
@@ -92,7 +99,14 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
 
   return (
     <div className="mx-4">
-      <Editor key={editorKey} placeholder={placeholder} onSubmit={handleSubmit} disabled={isPending} innerRef={editorRef} />
+      <Editor
+        key={editorKey}
+        placeholder={placeholder}
+        onSubmit={handleSubmit}
+        disabled={isPending}
+        innerRef={editorRef}
+        draggedImageSrc={draggedImage}
+      />
     </div>
   );
 };
