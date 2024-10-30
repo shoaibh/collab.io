@@ -17,6 +17,7 @@ export const SignInCard = ({ setState }: { setState: (state: SignInFlow) => void
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { signIn } = useAuthActions();
 
   const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,8 +33,6 @@ export const SignInCard = ({ setState }: { setState: (state: SignInFlow) => void
         router.replace("/");
       });
   };
-
-  const { signIn } = useAuthActions();
 
   const handleSignIn = (value: "github" | "google") => {
     setIsLoading(true);

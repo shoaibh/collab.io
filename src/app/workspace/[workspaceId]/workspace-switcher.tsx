@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { LogoLoader } from "@/components/ui/loader";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
@@ -20,9 +21,16 @@ export const WorkspaceSwitcher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="size-9 rounded-lg flex items-center justify-center relative  bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl">
-        {workspaceLoading ? <LogoLoader /> : workspace?.name.charAt(0).toUpperCase()}{" "}
-        <Plus className="size-4 bg-white/80 rounded-full absolute right-[-5px] bottom-[-5px]" />
+      <DropdownMenuTrigger className="relative font-semibold text-xl">
+        {workspaceLoading || !workspace ? (
+          <LogoLoader />
+        ) : (
+          <Avatar className="size-9 mr-2">
+            <AvatarImage src={workspace.image || undefined} />
+            <AvatarFallback>{workspace.name.charAt(0).toUpperCase()}</AvatarFallback>
+          </Avatar>
+        )}
+        <Plus className="size-4 bg-white/80 rounded-full absolute right-[5px] bottom-[-5px]" />
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="start" className="w-64">
         <DropdownMenuItem

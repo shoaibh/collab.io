@@ -27,7 +27,11 @@ export const get = query({
     for (const workspaceId of workspaceIds) {
       const workspace = await ctx.db.get(workspaceId);
       if (workspace) {
-        workspaces.push(workspace);
+        const workspaceToSend = {
+          ...workspace,
+          image: workspace.image ? await ctx.storage.getUrl(workspace.image) : undefined,
+        };
+        workspaces.push(workspaceToSend);
       }
     }
 
@@ -72,7 +76,14 @@ export const getById = query({
 
     if (!member) return null;
 
-    return await ctx.db.get(args.id);
+    const workspace = await ctx.db.get(args.id);
+
+    if (!workspace) return null;
+    return {
+      ...workspace,
+      image: workspace.image ? await ctx.storage.getUrl(workspace.image) : undefined,
+      imageStorageId: workspace.image,
+    };
   },
 });
 
@@ -115,6 +126,8 @@ export const update = mutation({
   args: {
     id: v.id("workspaces"),
     name: v.string(),
+    image: v.optional(v.id("_storage")),
+    removeImg: v.boolean(),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -130,9 +143,18 @@ export const update = mutation({
 
     if (!member || member.role !== "admin") throw new Error("Unauthorized to update this workspace");
 
-    await ctx.db.patch(args.id, {
-      name: args.name,
-    });
+    if (args.removeImg && args.image) {
+      await ctx.storage.delete(args.image);
+      await ctx.db.patch(args.id, {
+        image: undefined,
+        name: args.name,
+      });
+    } else {
+      await ctx.db.patch(args.id, {
+        image: args.image,
+        name: args.name,
+      });
+    }
     return args.id;
   },
 });

@@ -31,9 +31,22 @@ export const getById = query({
 
     if (!user) return null;
 
+    let imageSrc = undefined;
+
+    if (user.image) {
+      if (user.image.includes("https://")) {
+        imageSrc = user.image;
+      } else {
+        imageSrc = (await ctx.storage.getUrl(user.image)) || undefined;
+      }
+    }
+
     return {
       ...member,
-      user,
+      user: {
+        ...user,
+        image: imageSrc,
+      },
     };
   },
 });
@@ -62,7 +75,22 @@ export const get = query({
     for (const member of data) {
       const user = await populateUser(ctx, member.userId);
       if (user) {
-        members.push({ ...member, user });
+        let imageSrc = undefined;
+
+        if (user.image) {
+          if (user.image.includes("https://")) {
+            imageSrc = user.image;
+          } else {
+            imageSrc = (await ctx.storage.getUrl(user.image)) || undefined;
+          }
+        }
+        members.push({
+          ...member,
+          user: {
+            ...user,
+            image: imageSrc,
+          },
+        });
       }
     }
     return members;

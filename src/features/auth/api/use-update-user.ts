@@ -3,18 +3,22 @@ import { useCallback, useMemo, useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { id: Id<"workspaces">; name: string; image?: Id<"_storage">; removeImg: boolean };
-type ResponseType = Id<"workspaces"> | null;
+type RequestType = {
+  image: Id<"_storage">;
+  id: Id<"users">;
+  removeImg: boolean;
+};
+type ResponseType = Id<"users"> | null;
 
 type Options = {
-  onSuccess: (data: ResponseType) => void;
-  onError: (error: Error) => void;
+  onSuccess?: (data: ResponseType) => void;
+  onError?: (error: Error) => void;
   onSettled?: () => void;
   throwError?: boolean;
 };
 
-export const useUpdateWorkspaces = () => {
-  const mutation = useMutation(api.workspaces.update);
+export const useUpdateUser = () => {
+  const mutation = useMutation(api.users.update);
 
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -41,7 +45,7 @@ export const useUpdateWorkspaces = () => {
         options?.onError?.(error as Error);
         if (options?.throwError) throw error;
       } finally {
-        options?.onSettled?.();
+        options.onSettled?.();
         setStatus("settled");
       }
     },

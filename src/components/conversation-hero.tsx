@@ -17,12 +17,12 @@ export const ConversationHero = ({
 
   return (
     <div className="mt-[88px] mx-5 mb-4">
-      <div className="flex items-center gap-x-1 mb-2 cursor-pointer hover:underline" onClick={() => memberId && onOpenProfile(memberId)}>
+      <div className="flex items-center gap-x-1 mb-2 cursor-pointer" onClick={() => memberId && onOpenProfile(memberId)}>
         <Avatar className="size-14 mr-2">
           <AvatarImage src={image} />
           <AvatarFallback>{avatarFallback}</AvatarFallback>
         </Avatar>
-        <p className="text-2xl font-bold ">{name}</p>
+        <p className="text-2xl font-bold hover:underline ">{name}</p>
       </div>
 
       <p className="font-normal text-slate-800 mb-4">

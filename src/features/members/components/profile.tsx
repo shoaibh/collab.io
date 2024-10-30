@@ -19,6 +19,10 @@ import { useCurrentMember } from "../api/use-current-member";
 import { useDeleteMember } from "../api/use-delete-member";
 import { useGetMember } from "../api/use-get-member";
 import { useUpdateMember } from "../api/use-update-member";
+import { useRef, useState } from "react";
+import { useUpdateUser } from "@/features/auth/api/use-update-user";
+import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
+import { useCurrentUser } from "@/features/auth/api/use-current-user";
 
 type ProfileProps = {
   memberId: Id<"members">;
@@ -27,6 +31,12 @@ type ProfileProps = {
 
 export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const workspaceId = useWorkspaceId();
+  const { data: user } = useCurrentUser();
+  const { mutate } = useUpdateUser();
+  const { mutate: generateUploadUrl } = useGenerateUploadUrl();
+  const imageElementRef = useRef<HTMLInputElement>(null);
+
+  const [RemoveImageDialog, confirmRemove] = useConfirm("Remove Profile Image", "Are you sure you want to remove the profile image?");
 
   const [LeaveDialog, confirmLeave] = useConfirm("Leave workspace", "Are you sure you want to leave this workspace?");
 
@@ -39,7 +49,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   });
 
   const { data: member, isLoading: memberLoading } = useGetMember({ id: memberId });
-  console.log({ member });
+
   const { mutate: updateMember, isLoading: memberUpdating } = useUpdateMember();
   const { mutate: deleteMember, isLoading: memberDeleting } = useDeleteMember();
 
@@ -58,7 +68,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
         onError: () => {
           toast.error("couldn't delete member");
         },
-      }
+      },
     );
   };
 
@@ -77,7 +87,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
         onError: () => {
           toast.error("Failed to leave the workspace");
         },
-      }
+      },
     );
   };
 
@@ -95,7 +105,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
         onError: () => {
           toast.error("failed to change role");
         },
-      }
+      },
     );
   };
 
@@ -133,11 +143,52 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   }
 
   const avatarFallback = member.user.name?.charAt(0).toUpperCase();
+
+  const onImageSelection = async (file: File) => {
+    if (file && user) {
+      const url = await generateUploadUrl({ throwError: true });
+
+      if (!url) {
+        throw new Error("url not found");
+      }
+
+      const result = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": file.type,
+        },
+        body: file,
+      });
+
+      if (!result.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const { storageId } = await result.json();
+
+      mutate({ image: storageId, id: user._id, removeImg: false }, {});
+    }
+  };
+
+  const onRemoveImage = async () => {
+    const ok = await confirmRemove();
+
+    if (!ok) return;
+
+    if (!user!.image?.includes("convex")) {
+      toast.error("image src is from Google or Github");
+      return;
+    }
+    mutate({ image: user!.imageStorageId as Id<"_storage">, id: user!._id, removeImg: true }, {});
+  };
+
   return (
     <>
       <DeleteDialog />
       <UpdateDialog />
       <LeaveDialog />
+      <RemoveImageDialog />
+      <input type="file" accept="image/*" ref={imageElementRef} className="hidden" onChange={(e) => onImageSelection(e.target.files![0])} />
       <div className="h-full flex flex-col">
         <div className="flex justify-between items-center h-[50px] px-4 border-b">
           <p className="text-lg font-bold">Thread</p>
@@ -150,6 +201,14 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
             <AvatarImage src={member.user.image} />
             <AvatarFallback className="aspect-square text-6xl">{avatarFallback}</AvatarFallback>
           </Avatar>
+          <div className="mt-2 gap-4 flex w-full">
+            <Button variant="outline" className="w-full" onClick={() => imageElementRef.current?.click()}>
+              Upload
+            </Button>
+            <Button variant="destructive" className="w-full" onClick={onRemoveImage}>
+              Remove
+            </Button>
+          </div>
         </div>
         <div className="flex flex-col p-4">
           <p className="text-xl font-bold">{member.user.name}</p>

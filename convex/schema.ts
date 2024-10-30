@@ -7,7 +7,7 @@ const schema = defineSchema({
 
   users: defineTable({
     name: v.optional(v.string()),
-    image: v.optional(v.string()),
+    image: v.optional(v.union(v.string(), v.id("_storage"))),
     email: v.optional(v.string()),
     emailVerificationTime: v.optional(v.number()),
     phone: v.optional(v.string()),
@@ -21,6 +21,7 @@ const schema = defineSchema({
   workspaces: defineTable({
     name: v.string(),
     userId: v.id("users"),
+    image: v.optional(v.id("_storage")),
     joinCode: v.string(),
   }),
 

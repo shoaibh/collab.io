@@ -81,7 +81,7 @@ const Editor = ({
               key: "Enter",
               handler: () => {
                 const text = quill.getText();
-                const addedImage = imageElementRef.current?.files?.[0] || null;
+                const addedImage = imageElementRef.current?.files?.[0] || image || null;
                 const isEmpty = !addedImage && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
                 if (isEmpty) return;
 
