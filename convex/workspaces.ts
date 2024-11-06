@@ -98,6 +98,17 @@ export const create = mutation({
       throw new Error("Unauthorized");
     }
 
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_user_id", (q) => q.eq("userId", userId))
+      .collect();
+
+    const workspaceIds = members.map((member) => member.workspaceId);
+
+    if (workspaceIds.length > 2) {
+      throw new Error("Can't create more than 2 workspaces");
+    }
+
     const joinCode = generateCode();
 
     const workspaceId = await ctx.db.insert("workspaces", {

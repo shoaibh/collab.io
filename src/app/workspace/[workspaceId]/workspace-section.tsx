@@ -15,8 +15,8 @@ type WorkspaceSectionProps = PropsWithChildren<{
 export const WorkspaceSection = ({ label, hint, onNew, children }: WorkspaceSectionProps) => {
   const [on, toggle] = useToggle(true);
   return (
-    <div className="flex flex-col mt-3 px-2">
-      <div className="flex items-center px-3.5 group">
+    <div id={label.toLowerCase().split(" ").join("-")} className="flex flex-col mt-8 px-2">
+      <div id={`add-${label.toLowerCase().split(" ").join("-")}`} className="flex items-center group">
         <Button variant="transparent" className="p-0.5 text-sm text-[#f9edffcc] shrink-0 size-6" onClick={toggle}>
           <FaCaretDown className={cn("size-4 transition-transform", !on && "-rotate-90")} />
         </Button>

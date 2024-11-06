@@ -21,7 +21,7 @@ export const WorkspaceSwitcher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="relative font-semibold text-xl">
+      <DropdownMenuTrigger id="workspace-switcher" className="relative font-semibold text-xl">
         {workspaceLoading || !workspace ? (
           <LogoLoader />
         ) : (

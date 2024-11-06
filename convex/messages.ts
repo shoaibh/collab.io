@@ -59,6 +59,13 @@ const populateThreads = async (ctx: QueryCtx, messageId: Id<"messages">) => {
   };
 };
 
+function shouldCreateNotification(preference: "all" | "mentions" | "none", isAuthor: boolean, isMentioned: boolean): boolean {
+  if (isAuthor) return false;
+  if (preference === "none") return false;
+  if (preference === "mentions") return isMentioned;
+  return true;
+}
+
 export const get = query({
   args: {
     channelId: v.optional(v.id("channels")),
@@ -87,10 +94,12 @@ export const get = query({
     const results = await ctx.db
       .query("messages")
       .withIndex("by_channel_id_parent_message_id_conversation_id", (q) =>
-        q.eq("channelId", args.channelId).eq("parentMessageId", args.parentMessageId).eq("conversationId", _conversation_id)
+        q.eq("channelId", args.channelId).eq("parentMessageId", args.parentMessageId).eq("conversationId", _conversation_id),
       )
       .order("desc")
       .paginate(args.paginationOpts);
+
+    console.log("==cjeclo");
 
     return {
       ...results,
@@ -127,9 +136,10 @@ export const get = query({
               [] as (Doc<"reactions"> & {
                 count: number;
                 memberIds: Id<"members">[];
-              })[]
+              })[],
             );
 
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const reactionsWithoutMemberIdProperty = mapReactions.map(({ memberId, ...rest }) => rest);
 
             return {
@@ -143,7 +153,7 @@ export const get = query({
               threadName: thread.name,
               threadTimestamp: thread.timestamp,
             };
-          })
+          }),
         )
       ).filter((message): message is NonNullable<typeof message> => message !== null),
     };
@@ -201,9 +211,10 @@ export const getById = query({
       [] as (Doc<"reactions"> & {
         count: number;
         memberIds: Id<"members">[];
-      })[]
+      })[],
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const reactionsWithoutMemberIdProperty = mapReactions.map(({ memberId, ...rest }) => rest);
 
     return {
@@ -258,6 +269,52 @@ export const create = mutation({
       conversationId: _conversation_id,
       parentMessageId: args.parentMessageId,
     });
+
+    if (args.channelId) {
+      const users = await ctx.db
+        .query("members")
+        .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.workspaceId))
+        .collect();
+
+      for (const user of users) {
+        const shouldNotify = shouldCreateNotification("all", userId === user.userId, false);
+
+        if (shouldNotify) {
+          await ctx.db.insert("notifications", {
+            userId: user.userId,
+            messageId,
+            channelId: args.channelId,
+            type: "message",
+            createdAt: Date.now(),
+          });
+        }
+      }
+    } else if (args.conversationId) {
+      const conversation = await ctx.db
+        .query("conversations")
+        .withIndex("by_id", (q) => q.eq("_id", args.conversationId!))
+        .unique();
+      if (conversation) {
+        const memberOne = await ctx.db
+          .query("members")
+          .withIndex("by_id", (q) => q.eq("_id", conversation.memberOneId))
+          .unique();
+        const memberTwo = await ctx.db
+          .query("members")
+          .withIndex("by_id", (q) => q.eq("_id", conversation.memberTwoId))
+          .unique();
+
+        if (memberOne && memberTwo) {
+          await ctx.db.insert("notifications", {
+            userId: userId === memberOne.userId ? memberTwo.userId : memberOne.userId,
+            messageId,
+            senderId: userId === memberOne.userId ? memberOne._id : memberTwo._id,
+            type: "message",
+            createdAt: Date.now(),
+          });
+        }
+      }
+    }
 
     return messageId;
   },

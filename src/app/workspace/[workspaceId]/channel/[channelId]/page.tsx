@@ -73,6 +73,7 @@ const ChannelIdPage = () => {
 
   return (
     <div
+      id="main-channel"
       className="flex flex-col h-full relative"
       onDrop={handleDrop}
       onDragOver={handleDragOver}

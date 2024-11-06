@@ -33,7 +33,7 @@ export const WorkspaceHeader = ({
         image={workspace.image}
         imageStorageId={workspace.imageStorageId || undefined}
       />
-      <div className="flex items-center justify-between px-4 pt-4 h-[49px] gap-0.5">
+      <div id="workspace-header" className="flex items-center justify-between px-4 pt-4 h-[49px] gap-0.5">
         <WorkspaceSwitcher />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -23,7 +23,7 @@ const schema = defineSchema({
     userId: v.id("users"),
     image: v.optional(v.id("_storage")),
     joinCode: v.string(),
-  }),
+  }).index("by_user_id", ["userId"]),
 
   members: defineTable({
     userId: v.id("users"),
@@ -72,6 +72,17 @@ const schema = defineSchema({
     .index("by_workspace_id", ["workspaceId"])
     .index("by_message_id", ["messageId"])
     .index("by_member_id", ["memberId"]),
+
+  notifications: defineTable({
+    userId: v.id("users"),
+    messageId: v.id("messages"),
+    channelId: v.optional(v.id("channels")),
+    senderId: v.optional(v.id("members")),
+    type: v.union(v.literal("mention"), v.literal("message")),
+    createdAt: v.number(),
+  })
+    .index("by_user_id_channel_id", ["userId", "channelId"])
+    .index("by_user_id_sender_id", ["userId", "senderId"]),
 });
 
 export default schema;

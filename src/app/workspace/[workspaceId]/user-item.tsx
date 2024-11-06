@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { useGetNotification } from "@/features/messages/api/use-get-notification";
+import { useGetNotificationStore } from "@/features/workspaces/store/use-get-notification-store";
 
 const userItemVariants = cva("flex items-center gap-1.5 justify-start font-normal h-7 px-4 text-sm overflow-hidden", {
   variants: {
@@ -30,6 +32,20 @@ type UserItemProps = {
 export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps) => {
   const workspaceId = useWorkspaceId();
 
+  const { data } = useGetNotification({ memberId: id });
+  const [, setNotificationIds] = useGetNotificationStore();
+
+  useEffect(() => {
+    if (data) {
+      setNotificationIds(
+        data.map((d) => {
+          return { id: d._id, memberId: d.senderId as Id<"members"> };
+        }),
+      );
+    }
+  }, [data, setNotificationIds]);
+  const newNotifications = data?.length || 0;
+
   const avatarFallback = label.charAt(0).toUpperCase();
 
   return (
@@ -39,7 +55,8 @@ export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps
           <AvatarImage className="rounded-md" src={image} />
           <AvatarFallback className="rounded-md bg-sky-500 text-white text-sm">{avatarFallback}</AvatarFallback>
         </Avatar>
-        <span className="text-sm truncate">{label}</span>
+        <span className={`text-sm truncate ${newNotifications > 0 && "font-bold text-white"}`}>{label}</span>
+        {newNotifications > 0 && <span className="ml-auto bg-white text-[#634029] px-2 rounded-full font-bold">{newNotifications}</span>}
       </Link>
     </Button>
   );

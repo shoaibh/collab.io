@@ -28,6 +28,15 @@ export const create = mutation({
       throw new Error("Unauthorized to create a channel in this workspace");
     }
 
+    const channels = await ctx.db
+      .query("channels")
+      .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.workspaceId))
+      .collect();
+
+    if (channels.length > 10) {
+      throw new Error("Can't create more than 10 channels");
+    }
+
     const parsedName = args.name.replace(/\s+/g, "-").toLowerCase();
 
     const channelId = await ctx.db.insert("channels", {

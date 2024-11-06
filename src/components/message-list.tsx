@@ -2,12 +2,15 @@ import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
 import { ChannelHero } from "./channel-hero";
 import { ConversationHero } from "./conversation-hero";
 import { Message } from "./message";
 import { LogoLoader } from "./ui/loader";
+import { useDeleteNotification } from "@/features/messages/api/use-delete-notification";
+import { useGetNotificationStore } from "@/features/workspaces/store/use-get-notification-store";
+import { useChannelId } from "@/hooks/use-channel-id";
 
 const TIME_THRESHOLD = 2;
 
@@ -44,8 +47,27 @@ export const MessageList = ({
   canLoadMore,
 }: MessageListProps) => {
   const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
+  const currentChannelId = useChannelId();
 
   const workspaceId = useWorkspaceId();
+  const { mutate: deleteNotification } = useDeleteNotification();
+  const [notificationIds] = useGetNotificationStore();
+
+  useEffect(() => {
+    if (!notificationIds.length) return;
+
+    (async () => {
+      const notificationsToBeDeleted = notificationIds.map(async ({ id, channelId, memberId: notificationMemberId }) => {
+        if (
+          (currentChannelId && currentChannelId === channelId) ||
+          (memberId === notificationMemberId && !channelId && !currentChannelId)
+        ) {
+          return await deleteNotification({ id: id }, {});
+        }
+      });
+      await Promise.all(notificationsToBeDeleted);
+    })();
+  }, [currentChannelId, deleteNotification, memberId, notificationIds]);
 
   const { data: currentMember } = useCurrentMember({ workspaceId });
 

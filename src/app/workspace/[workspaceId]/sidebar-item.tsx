@@ -24,15 +24,18 @@ type SidebarItemProps = {
   id: string;
   icon: LucideIcon | IconType;
   variant?: VariantProps<typeof sidebarItemVariants>["variant"];
+  newNotifications: number;
 };
 
-export const SidebarItem = ({ label, id, icon: Icon, variant }: SidebarItemProps) => {
+export const SidebarItem = ({ label, id, icon: Icon, variant, newNotifications }: SidebarItemProps) => {
   const workspaceId = useWorkspaceId();
+
   return (
     <Button variant="transparent" size="sm" asChild className={cn(sidebarItemVariants({ variant }))}>
       <Link href={`/workspace/${workspaceId}/channel/${id}`}>
-        <Icon className="size-3.5 mr-1 shrink-0" />
-        <span className="text-sm truncate">{label}</span>
+        <Icon className={`size-3.5 mr-1 shrink-0 ${newNotifications > 0 && "text-white font-bold"}`} />
+        <span className={`text-sm truncate ${newNotifications > 0 && "font-bold text-white"}`}>{label}</span>
+        {newNotifications > 0 && <span className="ml-auto bg-white text-[#634029] px-2 rounded-full font-bold">{newNotifications}</span>}
       </Link>
     </Button>
   );
