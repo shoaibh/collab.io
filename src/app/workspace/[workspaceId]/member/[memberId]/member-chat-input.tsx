@@ -3,7 +3,7 @@ import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import dyanmic from "next/dynamic";
 import Quill from "quill";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Id } from "../../../../../../convex/_generated/dataModel";
 
@@ -12,6 +12,7 @@ const Editor = dyanmic(() => import("@/components/editor"), { ssr: false });
 type ChatInputProps = {
   placeholder: string;
   conversationId: Id<"conversations">;
+  draggedImageSrc?: File | null;
 };
 
 type CreateMessageValues = {
@@ -21,10 +22,14 @@ type CreateMessageValues = {
   image: Id<"_storage"> | undefined;
 };
 
-export const MemberChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
+export const MemberChatInput = ({ placeholder, conversationId, draggedImageSrc }: ChatInputProps) => {
   const [editorKey, setEditorKey] = useState(0);
   const [isPending, setIsPending] = useState(false);
+  const [draggedImage, setDraggedImage] = useState<File | null>(null);
 
+  useEffect(() => {
+    if (draggedImageSrc) setDraggedImage(draggedImageSrc);
+  }, [draggedImageSrc]);
   const { mutate: generateUploadUrl } = useGenerateUploadUrl();
 
   const editorRef = useRef<Quill | null>(null);
@@ -80,6 +85,7 @@ export const MemberChatInput = ({ placeholder, conversationId }: ChatInputProps)
         throwError: true,
       });
       setEditorKey((prevKey) => prevKey + 1);
+      setDraggedImage(null);
     } catch (e) {
       console.log(e);
       toast.error("Failed to send message");
@@ -91,7 +97,14 @@ export const MemberChatInput = ({ placeholder, conversationId }: ChatInputProps)
 
   return (
     <div className="mx-4">
-      <Editor key={editorKey} placeholder={placeholder} onSubmit={handleSubmit} disabled={isPending} innerRef={editorRef} />
+      <Editor
+        key={editorKey}
+        placeholder={placeholder}
+        onSubmit={handleSubmit}
+        disabled={isPending}
+        innerRef={editorRef}
+        draggedImageSrc={draggedImage}
+      />
     </div>
   );
 };

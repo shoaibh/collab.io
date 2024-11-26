@@ -130,7 +130,7 @@ const Editor = ({
         innerRef.current = null;
       }
     };
-  }, [innerRef]);
+  }, [image, innerRef]);
 
   const toggleToolbar = () => {
     setIsToolbarVisibile(!isToolbarVisibile);

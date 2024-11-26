@@ -68,13 +68,13 @@ export const Toolbar = () => {
   return (
     <>
       {currentUser?.isGuest && showBanner && (
-        <div className="flex p-2 bg-[#e32e1e] relative">
-          <span className="flex-1 text-center text-white font-semibold">
+        <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center p-2 bg-[#e32e1e] relative">
+          <span className="col-start-2 justify-self-center text-white font-semibold">
             Everything related to this guest user will be deleted after 24 hours. To not get your data deleted, log in with google or
             github.
           </span>
 
-          <div className="absolute right-3 flex text-white gap-2">
+          <div className="flex col-start-3 justify-self-end text-white gap-2">
             <span className="font-semibold">Banner disappearing in {timer} seconds</span>
             <X onClick={() => setShowBanner(false)} className="cursor-pointer  text-white" />
           </div>
