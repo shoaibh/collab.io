@@ -13,7 +13,7 @@ import { UserItem } from "./user-item";
 import { WorkspaceHeader } from "./workspace-header";
 import { WorkspaceSection } from "./workspace-section";
 
-export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void }) => {
+export const WorkspaceSidebar = ({ toggleSidebar, isMobile = false }: { toggleSidebar?: () => void; isMobile?: boolean }) => {
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
@@ -41,12 +41,17 @@ export const WorkspaceSidebar = ({ toggleSidebar }: { toggleSidebar?: () => void
   return (
     <div className="flex flex-col bg-[#634029]/90 relative h-full pt-10 lg:pt-0">
       <X className="absolute cursor-pointer top-2 right-2 lg:hidden text-white" onClick={toggleSidebar} />
-      <WorkspaceHeader workspace={workspace} isAdmin={currentMember.role === "admin"} />
+      <WorkspaceHeader workspace={workspace} isAdmin={currentMember.role === "admin"} isMobile={isMobile} />
 
-      <WorkspaceSection label="Channels" hint="New Channel" onNew={currentMember.role === "admin" ? () => setOpen(true) : undefined}>
+      <WorkspaceSection
+        isMobile={isMobile}
+        label="Channels"
+        hint="New Channel"
+        onNew={currentMember.role === "admin" ? () => setOpen(true) : undefined}
+      >
         {channels?.map((item) => <ChannelSidebar key={item._id} item={item} channelId={channelId} />)}
       </WorkspaceSection>
-      <WorkspaceSection label="Direct Messages" hint="New Direct Message">
+      <WorkspaceSection isMobile={isMobile} label="Direct Messages" hint="New Direct Message">
         {members?.map((item) => (
           <UserItem
             key={item._id}

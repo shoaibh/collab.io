@@ -11,8 +11,10 @@ import {
 import { useCurrentUser } from "@/features/auth/api/use-current-user";
 import { UserButton } from "@/features/auth/components/user-button";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { usePanel } from "@/hooks/use-panel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Search, X } from "lucide-react";
 import Image from "next/image";
@@ -55,6 +57,14 @@ export const Toolbar = () => {
     };
   }, [setTimer, timer]);
 
+  const { onOpenProfile } = usePanel();
+
+  const { data: member } = useCurrentMember({ workspaceId });
+
+  const onProfileClick = () => {
+    onOpenProfile(member!._id);
+  };
+
   return (
     <>
       {currentUser?.isGuest && showBanner && (
@@ -74,7 +84,7 @@ export const Toolbar = () => {
         <div className="flex-1 flex items-end ml-4">
           <Image src="/collab-logo.png" alt="logo" width={40} height={70} />
         </div>
-        <div className="min-w-[280px] max-w-[642px] grow-[2] shrink">
+        <div id="search-bar" className="min-w-[280px] max-w-[642px] grow-[2] shrink">
           <Button onClick={() => setOpen(true)} size="sm" className="bg-accent/25 hover:bg-accent/25 w-full justify-start h-8 p-3">
             <Search className="size-4 text-[#4d311f] text-xs mr-3" />
             <span className="text-[#4d311f] text-xs">Search {data?.name} Workspace</span>
@@ -103,7 +113,7 @@ export const Toolbar = () => {
           </CommandDialog>
         </div>
         <div className="ml-auto flex-1 flex items-center justify-end mr-2">
-          <UserButton />
+          <UserButton onProfileClick={onProfileClick} />
         </div>
       </nav>
     </>

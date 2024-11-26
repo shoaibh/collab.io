@@ -4,14 +4,10 @@ import { Loader, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import React from "react";
-import { useCurrentUser } from "../api/use-current-user";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { usePanel } from "@/hooks/use-panel";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useCurrentUser } from "../api/use-current-user";
 
-export const UserButton = () => {
+export const UserButton = ({ onProfileClick }: { onProfileClick: () => void }) => {
   const { data, isLoading } = useCurrentUser();
   const { signOut } = useAuthActions();
 
@@ -34,12 +30,6 @@ export const UserButton = () => {
 
   const { name, image } = data;
 
-  // const { onOpenProfile } = usePanel();
-
-  const workspaceId = useWorkspaceId();
-
-  const { data: member } = useCurrentMember({ workspaceId });
-
   const avatarFallback = name!.charAt(0).toUpperCase();
 
   return (
@@ -52,12 +42,10 @@ export const UserButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" side="left" className="w-60">
         <DropdownMenuItem
-          className="cursor-text block select-text"
+          className="cursor-pointer block select-text"
           onClick={(e) => {
             e.preventDefault();
-            // if (member) {
-            //   onOpenProfile(member?._id);
-            // }
+            onProfileClick();
           }}
         >
           <div className="text-sm font-semibold">{data.name}</div>

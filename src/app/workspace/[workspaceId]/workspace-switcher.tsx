@@ -8,7 +8,7 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export const WorkspaceSwitcher = () => {
+export const WorkspaceSwitcher = ({ isMobile }: { isMobile: boolean }) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
   const [, setCreateModalState] = useCreateWorkspaceModal();
@@ -21,7 +21,7 @@ export const WorkspaceSwitcher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger id="workspace-switcher" className="relative font-semibold text-xl">
+      <DropdownMenuTrigger id={`${!isMobile ? "workspace-switcher" : ""}`} className="relative font-semibold text-xl">
         {workspaceLoading || !workspace ? (
           <LogoLoader />
         ) : (
@@ -53,7 +53,7 @@ export const WorkspaceSwitcher = () => {
             <p className="truncate">{w.name}</p>
           </DropdownMenuItem>
         ))}
-        <DropdownMenuItem onClick={() => setCreateModalState(true)}>
+        <DropdownMenuItem id={`${!isMobile ? "create-new-workspace" : ""}`} onClick={() => setCreateModalState(true)}>
           <div className="size-9 relative overflow-hidden bg-[#F2F2F2] text-slate-800 font-semibold text-xl rounded-md flex items-center justify-center mr-2">
             <Plus />
           </div>

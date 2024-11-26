@@ -123,3 +123,12 @@ html, body, :root {
   scrollbar-width: thin;
   scrollbar-color: #dcdcdc #f8f8f8;
 }
+
+.tour-highlight {
+  position: relative;
+  z-index: 41;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+  border: 2px solid white;
+    padding: 5px;
+}

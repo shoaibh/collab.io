@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,22 +8,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { InviteModal } from "./invite-modal";
 import { SettingsModal } from "./settings-modal";
 import { WorkspaceSwitcher } from "./workspace-switcher";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useShowTour } from "@/features/workspaces/store/use-show-tour";
 
 export const WorkspaceHeader = ({
   workspace,
   isAdmin,
+  isMobile,
 }: {
   workspace: Omit<Doc<"workspaces">, "image"> & { imageStorageId: Id<"_storage"> | undefined | null; image?: string | null };
   isAdmin: boolean;
+  isMobile: boolean;
 }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
+
+  const [, setShowTour] = useShowTour();
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (!window.localStorage.getItem("show-tour")) {
+      setShowTour(true);
+      window.localStorage.setItem("show-tour", "false");
+    }
+  }, [setShowTour]);
+
   return (
     <>
       <InviteModal open={inviteOpen} setOpen={setInviteOpen} name={workspace.name} joinCode={workspace.joinCode} />
@@ -33,11 +50,16 @@ export const WorkspaceHeader = ({
         image={workspace.image}
         imageStorageId={workspace.imageStorageId || undefined}
       />
-      <div id="workspace-header" className="flex items-center justify-between px-4 pt-4 h-[49px] gap-0.5">
-        <WorkspaceSwitcher />
+      <div id={`${!isMobile ? "workspace-header" : ""}`} className="flex items-center justify-between p-4 gap-0.5">
+        <WorkspaceSwitcher isMobile={isMobile} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="transparent" className="font-semibold text-lg w-auto p-1.5 overflow-hidden flex items-center">
+            <Button
+              id={`${!isMobile ? "workspace-settings" : ""}`}
+              size="sm"
+              variant="transparent"
+              className="font-semibold text-lg w-auto p-1.5 overflow-hidden flex items-center"
+            >
               <span className="truncate ">{workspace.name}</span>
               <ChevronDown className="size-4 ml-1 shrink-0" />
             </Button>
