@@ -29,7 +29,7 @@ export function generatePassword() {
 
   const getRandomChar = (chars: string) => chars.charAt(Math.floor(Math.random() * chars.length));
 
-  let password = [
+  const password = [
     getRandomChar(lowerCaseChars), // Ensure at least one lowercase
     getRandomChar(upperCaseChars), // Ensure at least one uppercase
     getRandomChar(numbers), // Ensure at least one number
