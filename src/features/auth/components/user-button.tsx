@@ -1,22 +1,27 @@
 "use client";
 
-import { Loader, LogOut } from "lucide-react";
+import { Loader, Loader2, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentUser } from "../api/use-current-user";
+import { useState } from "react";
 
 export const UserButton = ({ onProfileClick }: { onProfileClick: () => void }) => {
   const { data, isLoading } = useCurrentUser();
+  const [logginOut, setLoggingOut] = useState(false);
   const { signOut } = useAuthActions();
 
   const handleLogout = async () => {
     try {
-      await signOut(); // Wait for signOut to complete
-      window.location.href = "/"; // Redirect after successful logout
+      setLoggingOut(true);
+      await signOut();
+      window.location.href = "/";
     } catch (error) {
       console.error("Logout failed:", error); // Handle potential errors
+    } finally {
+      setLoggingOut(false);
     }
   };
 
@@ -52,8 +57,14 @@ export const UserButton = ({ onProfileClick }: { onProfileClick: () => void }) =
           <div className="text-xs text-muted-foreground">{data.email}</div>
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
-          <LogOut className="size-4 mr-2" /> Log Out
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            handleLogout();
+          }}
+        >
+          {logginOut ? <Loader2 className="size-4 mr-2 animate-spin" /> : <LogOut className="size-4 mr-2" />} Log Out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -2,6 +2,7 @@ import { useMutation } from "convex/react";
 import { useCallback, useMemo, useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
+import { toast } from "sonner";
 
 type RequestType = {
   image: Id<"_storage">;
@@ -42,6 +43,7 @@ export const useUpdateUser = () => {
         return response;
       } catch (error) {
         setStatus("error");
+        toast.error("Error happened");
         options?.onError?.(error as Error);
         if (options?.throwError) throw error;
       } finally {

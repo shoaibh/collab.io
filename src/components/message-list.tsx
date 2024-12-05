@@ -54,6 +54,7 @@ export const MessageList = ({
   const [notificationIds] = useGetNotificationStore();
 
   useEffect(() => {
+    console.log("==", { notificationIds });
     if (!notificationIds.length) return;
 
     (async () => {

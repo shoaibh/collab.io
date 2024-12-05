@@ -20,6 +20,7 @@ export const getUnreadNotifications = query({
         .order("desc")
         .collect();
     } else if (args.memberId) {
+      console.log("checking");
       return await ctx.db
         .query("notifications")
         .withIndex("by_user_id_sender_id", (q) => q.eq("userId", userId).eq("senderId", args.memberId))

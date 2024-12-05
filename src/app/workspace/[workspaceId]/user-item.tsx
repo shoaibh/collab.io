@@ -47,6 +47,8 @@ export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps
   }, [data, id, setNotificationIds]);
   const newNotifications = data?.length || 0;
 
+  console.log("==", { data, newNotifications });
+
   const avatarFallback = label.charAt(0).toUpperCase();
 
   return (

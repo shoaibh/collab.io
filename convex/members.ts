@@ -46,6 +46,7 @@ export const getById = query({
       user: {
         ...user,
         image: imageSrc,
+        imageStorageId: user.image,
       },
     };
   },
