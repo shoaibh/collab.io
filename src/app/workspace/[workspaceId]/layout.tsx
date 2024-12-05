@@ -109,8 +109,12 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
           <ResizablePanel defaultSize={20} minSize={11} className="shadow rounded-lg hidden lg:block">
             <WorkspaceSidebar />
           </ResizablePanel>
-          <ResizableHandle />
-          <ResizablePanel className="" defaultSize={80} minSize={20}>
+          <ResizableHandle withHandle />
+          <ResizablePanel
+            className="my-1 mr-1 shadow-lg rounded-lg bg-gradient-to-b from-[#fae5d7] to-[#f6c4b4]"
+            defaultSize={80}
+            minSize={20}
+          >
             {children}
           </ResizablePanel>
           {showPanel && (

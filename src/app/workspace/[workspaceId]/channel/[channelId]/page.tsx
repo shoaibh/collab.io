@@ -39,7 +39,7 @@ const ChannelIdPage = () => {
   return (
     <div
       id="main-channel"
-      className="flex shadow-md ml-10 rounded-lg flex-col h-full relative"
+      className="flex shadow-md rounded-lg flex-col h-full relative"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}

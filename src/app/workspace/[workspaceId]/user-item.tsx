@@ -50,13 +50,13 @@ export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps
   const avatarFallback = label.charAt(0).toUpperCase();
 
   return (
-    <Button variant="transparent" className={cn(userItemVariants({ variant }), "hover:bg-[#f2c74433]/10")} size="sm" asChild>
+    <Button variant="transparent" className={cn(userItemVariants({ variant }), "hover:bg-[#85582433]")} size="sm" asChild>
       <Link href={`/workspace/${workspaceId}/member/${id}`}>
         <Avatar className="size-5 rounded-md mr-1">
           <AvatarImage className="rounded-md" src={image} />
           <AvatarFallback className="rounded-md bg-sky-500 text-white text-sm">{avatarFallback}</AvatarFallback>
         </Avatar>
-        <span className={`text-sm truncate text-[#634029] ${newNotifications > 0 && "font-bold "}`}>{label}</span>
+        <span className={`text-sm truncate font-semibold text-[#634029] ${newNotifications > 0 && "font-bold "}`}>{label}</span>
         {newNotifications > 0 && <span className="ml-auto bg-white text-[#634029] px-2 rounded-full font-bold">{newNotifications}</span>}
       </Link>
     </Button>
