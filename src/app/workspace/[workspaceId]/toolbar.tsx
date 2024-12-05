@@ -43,8 +43,14 @@ export const Toolbar = () => {
   };
 
   useEffect(() => {
+    if (window.localStorage.getItem("show-banner")) {
+      setShowBanner(false);
+      return;
+    }
+
     if (timer <= 0) {
       setShowBanner(false);
+      window.localStorage.setItem("show-banner", "no");
       return;
     }
 
@@ -76,7 +82,13 @@ export const Toolbar = () => {
 
           <div className="flex col-start-3 justify-self-end text-white gap-2">
             <span className="font-semibold">Banner disappearing in {timer} seconds</span>
-            <X onClick={() => setShowBanner(false)} className="cursor-pointer  text-white" />
+            <X
+              onClick={() => {
+                setShowBanner(false);
+                window.localStorage.setItem("show-banner", "true");
+              }}
+              className="cursor-pointer  text-white"
+            />
           </div>
         </div>
       )}
