@@ -79,7 +79,7 @@ export const Header = ({ title }: { title: string }) => {
   return (
     <>
       <ConfirmDialog />
-      <div className="bg-white border-b h-[50px] flex items-center px-4 overflow-hidden">
+      <div className="shadow h-[50px] flex items-center px-4 overflow-hidden">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="ghost" className="text-lg text-black font-semibold px-2 overflow-hidden w-auto">

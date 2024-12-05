@@ -31,10 +31,16 @@ export const SidebarItem = ({ label, id, icon: Icon, variant, newNotifications }
   const workspaceId = useWorkspaceId();
 
   return (
-    <Button variant="transparent" size="sm" asChild className={cn(sidebarItemVariants({ variant }))}>
+    <Button variant="transparent" size="sm" asChild className={cn(sidebarItemVariants({ variant }), "hover:bg-[#f2c74433]/10")}>
       <Link href={`/workspace/${workspaceId}/channel/${id}`}>
-        <Icon className={`size-3.5 mr-1 shrink-0 ${newNotifications > 0 && "text-white font-bold"}`} />
-        <span className={`text-sm truncate ${newNotifications > 0 && "font-bold text-white"}`}>{label}</span>
+        <Icon
+          className={`size-3.5 mr-1 shrink-0   ${newNotifications > 0 && variant !== "active" ? " text-[#312316] font-bold" : "font-bold text-black"}`}
+        />
+        <span
+          className={`text-sm truncate ${variant === "active" && "text-black"} ${newNotifications > 0 && variant !== "active" ? " text-[#312316] font-bold" : "font-bold text-[#634029] "}`}
+        >
+          {label}
+        </span>
         {newNotifications > 0 && <span className="ml-auto bg-white text-[#634029] px-2 rounded-full font-bold">{newNotifications}</span>}
       </Link>
     </Button>

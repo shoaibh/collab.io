@@ -13,6 +13,8 @@ export const deleteGuestUsers = internalMutation(async ({ db }) => {
 
   const guestUsers = usersToDelete.filter((user) => user.isGuest);
 
+  console.log("Guest Users", { guestUsers });
+
   // Delete associated authAccounts and the user
   for (const user of guestUsers) {
     await db.delete(user._id);
@@ -79,11 +81,12 @@ export const deleteGuestUsers = internalMutation(async ({ db }) => {
     }
 
     for (const member of members) {
-      const [conversation, reactions, messages] = await Promise.all([
+      console.log("guest user member to be deleted", { member });
+      const [conversations, reactions, messages] = await Promise.all([
         db
           .query("conversations")
           .filter((q) => q.or(q.eq(q.field("memberOneId"), member._id), q.eq(q.field("memberTwoId"), member._id)))
-          .unique(),
+          .collect(),
         db
           .query("reactions")
           .withIndex("by_member_id", (q) => q.eq("memberId", member._id))
@@ -93,7 +96,7 @@ export const deleteGuestUsers = internalMutation(async ({ db }) => {
           .withIndex("by_member_id", (q) => q.eq("memberId", member._id))
           .collect(),
       ]);
-      if (conversation) {
+      for (const conversation of conversations) {
         await db.delete(conversation._id);
       }
       for (const reaction of reactions) {
@@ -105,8 +108,6 @@ export const deleteGuestUsers = internalMutation(async ({ db }) => {
       for (const message of messages) {
         await db.delete(message._id);
       }
-
-      await db.delete(member._id);
     }
 
     for (const authAccount of authAccountsToDelete) {

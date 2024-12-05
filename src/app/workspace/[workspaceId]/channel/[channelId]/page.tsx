@@ -7,7 +7,7 @@ import { useGetChannel } from "@/features/channels/api/use-get-channel";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useDragImage } from "@/hooks/use-drag-image";
-import { Image, TriangleAlert } from "lucide-react";
+import { Image as ImageIcon, TriangleAlert } from "lucide-react";
 import { ChatInput } from "./chat-input";
 import { Header } from "./header";
 
@@ -39,7 +39,7 @@ const ChannelIdPage = () => {
   return (
     <div
       id="main-channel"
-      className="flex flex-col h-full relative"
+      className="flex shadow-md ml-10 rounded-lg flex-col h-full relative"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
@@ -50,7 +50,7 @@ const ChannelIdPage = () => {
           {isDragging && (
             <div className="bg-white z-10 absolute left-0 top-0 h-full w-full grid place-content-center opacity-70">
               <div>
-                <Image className="size-20 m-auto" />
+                <ImageIcon className="size-20 m-auto" />
                 <div>
                   Share in <b>#{channel.name}</b>
                 </div>

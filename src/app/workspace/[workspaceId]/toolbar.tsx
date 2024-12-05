@@ -80,12 +80,16 @@ export const Toolbar = () => {
           </div>
         </div>
       )}
-      <nav className="bg-[#a16c47]/40 flex items-center justify-between h-14 p-1">
+      <nav className="shadow-md flex items-center justify-between h-14 p-1">
         <div className="flex-1 flex items-end ml-4">
           <Image src="/collab-logo.png" alt="logo" width={40} height={70} />
         </div>
         <div id="search-bar" className="min-w-[280px] max-w-[642px] grow-[2] shrink">
-          <Button onClick={() => setOpen(true)} size="sm" className="bg-accent/25 hover:bg-accent/25 w-full justify-start h-8 p-3">
+          <Button
+            onClick={() => setOpen(true)}
+            size="sm"
+            className="shadow-none border border-solid border-slate-200/50 bg-accent/25 hover:bg-accent/25 w-full justify-start h-8 p-3"
+          >
             <Search className="size-4 text-[#4d311f] text-xs mr-3" />
             <span className="text-[#4d311f] text-xs">Search {data?.name} Workspace</span>
           </Button>

@@ -58,7 +58,7 @@ export const WorkspaceHeader = ({
               id={`${!isMobile ? "workspace-settings" : ""}`}
               size="sm"
               variant="transparent"
-              className="font-semibold text-lg w-auto p-1.5 overflow-hidden flex items-center"
+              className="font-semibold  bg-gradient-to-r from-[#D4A373] to-[#E29578] text-lg w-auto p-1.5 overflow-hidden flex items-center"
             >
               <span className="truncate ">{workspace.name}</span>
               <ChevronDown className="size-4 ml-1 shrink-0" />

@@ -39,6 +39,13 @@ export default function Home() {
       );
     }
   }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal, mutate]);
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js").then((registration) => console.log("scope is: ", registration.scope));
+    }
+  }, []);
+
   return (
     <div className="h-full flex items-center justify-center">
       <LogoLoader />

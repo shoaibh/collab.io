@@ -374,6 +374,10 @@ export const remove = mutation({
       throw new Error("Unauthorized");
     }
 
+    if (message.image) {
+      await ctx.storage.delete(message.image);
+    }
+
     await ctx.db.delete(args.id);
 
     return args.id;

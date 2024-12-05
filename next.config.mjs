@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com", // The Google image domain
       },
+      {
+        protocol: "https",
+        hostname: "adept-trout-844.convex.cloud",
+      },
     ],
   },
 };

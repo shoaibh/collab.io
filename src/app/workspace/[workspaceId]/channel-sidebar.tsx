@@ -11,14 +11,15 @@ export const ChannelSidebar = ({ item, channelId }: { item: Doc<"channels">; cha
   const [, setNotificationIds] = useGetNotificationStore();
 
   useEffect(() => {
-    if (data) {
+    if (data?.length) {
+      console.log("=", { channelId, data });
       setNotificationIds(
         data.map((d) => {
           return { id: d._id, channelId: d.channelId as Id<"channels"> };
         }),
       );
     }
-  }, [data, setNotificationIds]);
+  }, [channelId, data, setNotificationIds]);
 
   return (
     <SidebarItem

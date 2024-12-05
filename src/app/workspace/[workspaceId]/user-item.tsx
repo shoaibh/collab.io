@@ -14,7 +14,7 @@ const userItemVariants = cva("flex items-center gap-1.5 justify-start font-norma
   variants: {
     variant: {
       default: "text-[#f9edffcc]",
-      active: "text-[#481349] bg-white/90 hover:bg-white/90",
+      active: "text-white bg-white/90 hover:bg-white/90",
     },
   },
   defaultVariants: {
@@ -36,26 +36,27 @@ export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps
   const [, setNotificationIds] = useGetNotificationStore();
 
   useEffect(() => {
-    if (data) {
+    if (data?.length) {
+      console.log("=", { id, data });
       setNotificationIds(
         data.map((d) => {
           return { id: d._id, memberId: d.senderId as Id<"members"> };
         }),
       );
     }
-  }, [data, setNotificationIds]);
+  }, [data, id, setNotificationIds]);
   const newNotifications = data?.length || 0;
 
   const avatarFallback = label.charAt(0).toUpperCase();
 
   return (
-    <Button variant="transparent" className={cn(userItemVariants({ variant }))} size="sm" asChild>
+    <Button variant="transparent" className={cn(userItemVariants({ variant }), "hover:bg-[#f2c74433]/10")} size="sm" asChild>
       <Link href={`/workspace/${workspaceId}/member/${id}`}>
         <Avatar className="size-5 rounded-md mr-1">
           <AvatarImage className="rounded-md" src={image} />
           <AvatarFallback className="rounded-md bg-sky-500 text-white text-sm">{avatarFallback}</AvatarFallback>
         </Avatar>
-        <span className={`text-sm truncate ${newNotifications > 0 && "font-bold text-white"}`}>{label}</span>
+        <span className={`text-sm truncate text-[#634029] ${newNotifications > 0 && "font-bold "}`}>{label}</span>
         {newNotifications > 0 && <span className="ml-auto bg-white text-[#634029] px-2 rounded-full font-bold">{newNotifications}</span>}
       </Link>
     </Button>

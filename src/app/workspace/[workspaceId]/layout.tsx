@@ -84,9 +84,9 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-gradient-to-b from-[#FDFCF0] to-[#F8E8D4]">
       <Toolbar />
-      <div className="flex h-[calc(100vh-56px)] relative">
+      <div className="flex h-[calc(100vh-56px)] p-5 rounded-lg overflow-hidden relative">
         <button
           className="lg:hidden flex flex-col bg-[#634029]/90 h-full p-2 top-4 left-4 z-10"
           onClick={toggleSidebar}
@@ -106,11 +106,11 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
         {/* Backdrop when the sidebar is open on mobile */}
         {isSidebarOpen && <div className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden" onClick={toggleSidebar} />}
         <ResizablePanelGroup direction="horizontal" autoSaveId={"collab-workspace-layout"}>
-          <ResizablePanel defaultSize={20} minSize={11} className="bg-[#634029]/90 hidden lg:block">
+          <ResizablePanel defaultSize={20} minSize={11} className="shadow rounded-lg hidden lg:block">
             <WorkspaceSidebar />
           </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={80} minSize={20}>
+          <ResizableHandle />
+          <ResizablePanel className="" defaultSize={80} minSize={20}>
             {children}
           </ResizablePanel>
           {showPanel && (

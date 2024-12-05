@@ -18,10 +18,10 @@ export const WorkspaceSection = ({ label, hint, onNew, children, isMobile }: Wor
   return (
     <div id={isMobile ? "" : label.toLowerCase().split(" ").join("-")} className="flex flex-col mt-2 px-2">
       <div id={isMobile ? "" : `add-${label.toLowerCase().split(" ").join("-")}`} className="flex items-center group">
-        <Button variant="transparent" className="p-0.5 text-sm text-[#f9edffcc] shrink-0 size-6" onClick={toggle}>
+        <Button variant="transparent" className="p-0.5 text-sm text-[#B39A86] shrink-0 size-6" onClick={toggle}>
           <FaCaretDown className={cn("size-4 transition-transform", !on && "-rotate-90")} />
         </Button>
-        <Button variant="transparent" size="sm" className="group px-1.5 text-sm text-[#f9edffcc] h-[28px] justify-start overflow-hidden">
+        <Button variant="transparent" size="sm" className="text-[#2b2015] group px-1.5 text-sm h-[28px] justify-start overflow-hidden">
           <span>{label}</span>
         </Button>
         {onNew && (

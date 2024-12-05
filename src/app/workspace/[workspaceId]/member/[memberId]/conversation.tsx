@@ -37,7 +37,7 @@ export const Conversation = ({ data }: Conversation) => {
 
   return (
     <div
-      className="flex flex-col h-full"
+      className="flex flex-col h-full shadow-md ml-10 rounded-lg"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
