@@ -30,10 +30,10 @@ export const Header = ({ title }: { title: string }) => {
     setValue(value);
   };
 
-  const handleEditOpen = () => {
+  const handleEditOpen = (open: boolean) => {
     if (member?.role !== "admin") return;
 
-    setEditOpen(true);
+    setEditOpen(open);
   };
 
   const handleDelete = async () => {
@@ -104,7 +104,7 @@ export const Header = ({ title }: { title: string }) => {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Rename this Workspace</DialogTitle>
+                    <DialogTitle>Rename this Channel</DialogTitle>
                   </DialogHeader>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
@@ -119,7 +119,7 @@ export const Header = ({ title }: { title: string }) => {
                     />
                     <DialogFooter>
                       <DialogClose asChild>
-                        <Button variant="outline" disabled={channelUpdating}>
+                        <Button variant="outline" disabled={channelUpdating} onClick={() => setEditOpen(false)}>
                           Cancel
                         </Button>
                       </DialogClose>
