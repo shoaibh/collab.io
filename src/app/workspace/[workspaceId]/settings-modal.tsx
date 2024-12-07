@@ -12,6 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { Id } from "../../../../convex/_generated/dataModel";
+import imageCompression from "browser-image-compression";
 
 type SettingsModalProps = {
   open: boolean;
@@ -40,15 +41,20 @@ export const SettingsModal = ({ open, setOpen, initialValue, image, imageStorage
 
     if (file) {
       const url = await generateUploadUrl({ throwError: true });
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 1, // Maximum file size (in MB)
+        maxWidthOrHeight: 1920, // Resize if dimensions exceed this value
+        initialQuality: 0.7, // Reduce quality to 70%
+      });
       if (!url) {
         throw new Error("url not found");
       }
       const result = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": file.type,
+          "Content-Type": compressedFile.type,
         },
-        body: file,
+        body: compressedFile,
       });
 
       if (!result.ok) {

@@ -33,14 +33,14 @@ export const WorkspaceSidebar = ({ toggleSidebar, isMobile = false }: { toggleSi
   if (!workspace || !currentMember)
     return (
       <div className="flex flex-col gap-y-2 h-full items-center justify-center">
-        <AlertTriangle className="size-5 text-white" />
-        <p className="text-white text-sm">Workspace or member not found</p>
+        <AlertTriangle className="size-5 text-black" />
+        <p className="text-black text-sm">Workspace or member not found</p>
       </div>
     );
 
   return (
     <div className="flex flex-col relative h-full pt-10 lg:pt-0 bg-gradient-to-b from-[#FDE4C8] to-[#F5D7A3] shadow-md">
-      <X className="absolute cursor-pointer top-2 right-2 lg:hidden text-white" onClick={toggleSidebar} />
+      <X className="absolute cursor-pointer top-2 right-2 lg:hidden text-black" onClick={toggleSidebar} />
       <WorkspaceHeader workspace={workspace} isAdmin={currentMember.role === "admin"} isMobile={isMobile} />
 
       <WorkspaceSection

@@ -7,6 +7,7 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { toast } from "sonner";
 import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { Id } from "../../../../../../convex/_generated/dataModel";
+import imageCompression from "browser-image-compression";
 
 const Editor = dyanmic(() => import("@/components/editor"), { ssr: false });
 
@@ -55,7 +56,11 @@ export const ChatInput = ({ placeholder, draggedImageSrc }: ChatInputProps) => {
 
       if (image) {
         const url = await generateUploadUrl({ throwError: true });
-
+        const compressedFile = await imageCompression(image, {
+          maxSizeMB: 1, // Maximum file size (in MB)
+          maxWidthOrHeight: 1920, // Resize if dimensions exceed this value
+          initialQuality: 0.85, // Reduce quality to 70%
+        });
         if (!url) {
           throw new Error("url not found");
         }
@@ -63,9 +68,9 @@ export const ChatInput = ({ placeholder, draggedImageSrc }: ChatInputProps) => {
         const result = await fetch(url, {
           method: "POST",
           headers: {
-            "Content-Type": image.type,
+            "Content-Type": compressedFile.type,
           },
-          body: image,
+          body: compressedFile,
         });
 
         if (!result.ok) {

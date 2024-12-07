@@ -84,15 +84,15 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <div className="h-full bg-gradient-to-b from-[#FDFCF0] to-[#F8E8D4]">
+    <div className="h-dvh relative bg-gradient-to-b from-[#FDFCF0] to-[#F8E8D4]">
       <Toolbar />
-      <div className="flex h-[calc(100vh-56px)] p-5 rounded-lg overflow-hidden relative">
+      <div className="flex h-[calc(100vh-56px)] p-5 rounded-lg overflow-hidden">
         <button
-          className="lg:hidden flex flex-col bg-[#634029]/90 h-full p-2 top-4 left-4 z-10"
+          className="lg:hidden flex bg-transparent p-2 absolute top-[10px] left-4 z-50 "
           onClick={toggleSidebar}
           aria-label="Toggle sidebar"
         >
-          <Menu className="text-white" />
+          <Menu className="text-transparent" />
         </button>
 
         <div
@@ -109,7 +109,7 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
           <ResizablePanel defaultSize={20} minSize={11} className="shadow rounded-lg hidden lg:block">
             <WorkspaceSidebar />
           </ResizablePanel>
-          <ResizableHandle withHandle />
+          <ResizableHandle withHandle className="hidden lg:flex" />
           <ResizablePanel className="shadow-lg rounded-lg bg-gradient-to-b from-[#fae5d7] to-[#f6c4b4]" defaultSize={80} minSize={20}>
             {children}
           </ResizablePanel>
@@ -128,7 +128,7 @@ const WorkspaceLayout = ({ children }: PropsWithChildren) => {
         </ResizablePanelGroup>
 
         <div
-          className={`fixed top-0 right-0 h-full w-[calc(100vw-50px)] bg-white z-20 transition-transform duration-300 transform ${
+          className={`fixed top-0 right-0 h-full w-[calc(100vw-50px)]  bg-gradient-to-b from-[#c8e7f3] to-[#d7f4df] z-20 transition-transform duration-300 transform ${
             showPanel ? "translate-x-0" : "translate-x-full"
           } lg:hidden `}
         >

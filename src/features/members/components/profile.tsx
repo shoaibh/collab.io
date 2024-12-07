@@ -23,6 +23,7 @@ import { useRef } from "react";
 import { useUpdateUser } from "@/features/auth/api/use-update-user";
 import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { useCurrentUser } from "@/features/auth/api/use-current-user";
+import imageCompression from "browser-image-compression";
 
 type ProfileProps = {
   memberId: Id<"members">;
@@ -147,6 +148,11 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const onImageSelection = async (file: File) => {
     if (file && user) {
       const url = await generateUploadUrl({ throwError: true });
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 1, // Maximum file size (in MB)
+        maxWidthOrHeight: 1920, // Resize if dimensions exceed this value
+        initialQuality: 0.7, // Reduce quality to 70%
+      });
 
       if (!url) {
         throw new Error("url not found");
@@ -155,9 +161,9 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
       const result = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": file.type,
+          "Content-Type": compressedFile.type,
         },
-        body: file,
+        body: compressedFile,
       });
 
       if (!result.ok) {

@@ -32,7 +32,7 @@ export const WorkspaceSection = ({ label, hint, onNew, children, isMobile }: Wor
               className="opacity-0 group-hover:opacity-100 transition-opacity ml-auto p-0.5 text-sm text-[#f9edffcc] size-6 shrink-0"
               onClick={onNew}
             >
-              <PlusIcon className="size-5" />
+              <PlusIcon className="size-5 text-black" />
             </Button>
           </Hint>
         )}

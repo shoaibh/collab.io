@@ -15,6 +15,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 import { useCreateMessage } from "../api/use-create-message";
 import { useGetMessage } from "../api/use-get-message";
 import { useGetMessages } from "../api/use-get-messages";
+import imageCompression from "browser-image-compression";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
@@ -70,7 +71,11 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
 
       if (image) {
         const url = await generateUploadUrl({ throwError: true });
-
+        const compressedFile = await imageCompression(image, {
+          maxSizeMB: 1, // Maximum file size (in MB)
+          maxWidthOrHeight: 1920, // Resize if dimensions exceed this value
+          initialQuality: 0.7, // Reduce quality to 70%
+        });
         if (!url) {
           throw new Error("url not found");
         }
@@ -78,9 +83,9 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         const result = await fetch(url, {
           method: "POST",
           headers: {
-            "Content-Type": image.type,
+            "Content-Type": compressedFile.type,
           },
-          body: image,
+          body: compressedFile,
         });
 
         if (!result.ok) {

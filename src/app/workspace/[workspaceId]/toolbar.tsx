@@ -14,6 +14,7 @@ import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { useShowTour } from "@/features/workspaces/store/use-show-tour";
 import { usePanel } from "@/hooks/use-panel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Search, X } from "lucide-react";
@@ -24,6 +25,7 @@ import { useEffect, useState } from "react";
 export const Toolbar = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const [showTour] = useShowTour();
 
   const [open, setOpen] = useState(false);
   const [showBanner, setShowBanner] = useState(true);
@@ -43,6 +45,8 @@ export const Toolbar = () => {
   };
 
   useEffect(() => {
+    if (showTour) return;
+
     if (window.localStorage.getItem("show-banner")) {
       setShowBanner(false);
       return;
@@ -61,7 +65,7 @@ export const Toolbar = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [setTimer, timer]);
+  }, [setTimer, showTour, timer]);
 
   const { onOpenProfile } = usePanel();
 
@@ -92,18 +96,16 @@ export const Toolbar = () => {
           </div>
         </div>
       )}
-      <nav className="shadow-md flex items-center justify-between h-14 p-1">
-        <div className="flex-1 flex items-end ml-4">
-          <Image src="/collab-logo.png" alt="logo" width={40} height={70} />
-        </div>
-        <div id="search-bar" className="min-w-[280px] max-w-[642px] grow-[2] shrink">
+      <nav className="shadow-md flex gap-4 items-center justify-between h-14 p-4">
+        <Image src="/collab-logo.png" alt="logo" width={40} height={70} className="flex-shrink-0" />
+        <div id="search-bar" className="flex-1 max-w-[542px]">
           <Button
             onClick={() => setOpen(true)}
             size="sm"
             className="shadow-none border border-solid border-slate-200/50 bg-accent/25 hover:bg-accent/25 w-full justify-start h-8 p-3"
           >
             <Search className="size-4 text-[#4d311f] text-xs mr-3" />
-            <span className="text-[#4d311f] text-xs">Search {data?.name} Workspace</span>
+            <span className="text-[#4d311f] truncate text-xs">Search {data?.name} Workspace</span>
           </Button>
 
           <CommandDialog open={open} onOpenChange={setOpen}>
@@ -128,7 +130,7 @@ export const Toolbar = () => {
             </CommandList>
           </CommandDialog>
         </div>
-        <div className="ml-auto flex-1 flex items-center justify-end mr-2">
+        <div className=" ">
           <UserButton onProfileClick={onProfileClick} />
         </div>
       </nav>

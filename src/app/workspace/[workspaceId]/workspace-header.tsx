@@ -14,6 +14,7 @@ import { InviteModal } from "./invite-modal";
 import { SettingsModal } from "./settings-modal";
 import { WorkspaceSwitcher } from "./workspace-switcher";
 import { useShowTour } from "@/features/workspaces/store/use-show-tour";
+import { checkIfMobile } from "@/lib/utils";
 
 export const WorkspaceHeader = ({
   workspace,
@@ -34,7 +35,7 @@ export const WorkspaceHeader = ({
       return;
     }
 
-    if (!window.localStorage.getItem("show-tour")) {
+    if (!window.localStorage.getItem("show-tour") && !checkIfMobile()) {
       setShowTour(true);
       window.localStorage.setItem("show-tour", "false");
     }
