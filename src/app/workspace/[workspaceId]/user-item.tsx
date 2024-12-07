@@ -37,7 +37,6 @@ export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps
 
   useEffect(() => {
     if (data?.length) {
-      console.log("=", { id, data });
       setNotificationIds(
         data.map((d) => {
           return { id: d._id, memberId: d.senderId as Id<"members"> };
@@ -45,9 +44,8 @@ export const UserItem = ({ id, label = "Member", image, variant }: UserItemProps
       );
     }
   }, [data, id, setNotificationIds]);
-  const newNotifications = data?.length || 0;
 
-  console.log("==", { data, newNotifications });
+  const newNotifications = data?.length || 0;
 
   const avatarFallback = label.charAt(0).toUpperCase();
 

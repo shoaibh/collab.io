@@ -35,7 +35,6 @@ export const SettingsModal = ({ open, setOpen, initialValue, image, imageStorage
   const { mutate: deleteWorkspace, isLoading: workspaceDeleting } = useDeleteWorkspaces();
 
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("why called");
     e.preventDefault();
     let tempImageStorageId = imageStorageId;
 

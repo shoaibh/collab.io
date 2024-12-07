@@ -9,8 +9,6 @@ import { Id } from "../../convex/_generated/dataModel";
 import { toast } from "sonner";
 import { LogoLoader } from "@/components/ui/loader";
 
-const DEFAULT_WORKSPACE = "k175ksv2c2kcm82bat2bc46y9n7363wt";
-
 export default function Home() {
   const router = useRouter();
   const [createWorkspaceModal, setCreateWorkspaceModal] = useCreateWorkspaceModal();
@@ -20,6 +18,8 @@ export default function Home() {
   const workspaceId = useMemo(() => data?.[0]?._id, [data]);
 
   const { mutate } = useDefaultJoin();
+
+  const DEFAULT_WORKSPACE = process.env.NEXT_PUBLIC_DEFAULT_WORKSPACE;
 
   useEffect(() => {
     if (isLoading) return;
@@ -34,11 +34,14 @@ export default function Home() {
             router.replace(`/workspace/${id}`);
             toast.success("Workspace joined");
           },
-          onError: () => toast.error("Failed to join workspace"),
+          onError: () => {
+            toast.error("Failed to join workspace");
+            setCreateWorkspaceModal(true);
+          },
         },
       );
     }
-  }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal, mutate]);
+  }, [workspaceId, isLoading, createWorkspaceModal, router, setCreateWorkspaceModal, mutate, DEFAULT_WORKSPACE]);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
