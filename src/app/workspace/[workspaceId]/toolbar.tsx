@@ -98,7 +98,7 @@ export const Toolbar = () => {
       )}
       <nav className="shadow-md flex gap-4 items-center justify-between h-14 p-4">
         <Image src="/collab-logo.png" alt="logo" width={40} height={70} className="flex-shrink-0" />
-        <div id="search-bar" className="flex-1 max-w-[542px]">
+        <div id="search-bar" className="hidden lg:block flex-1 max-w-[542px]">
           <Button
             onClick={() => setOpen(true)}
             size="sm"
