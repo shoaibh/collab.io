@@ -102,12 +102,12 @@ export const deleteGuestUsers = internalMutation(async ({ db }) => {
       for (const reaction of reactions) {
         await db.delete(reaction._id);
       }
-      for (const member of members) {
-        await db.delete(member._id);
-      }
       for (const message of messages) {
         await db.delete(message._id);
       }
+      const checkMemberExist = await db.get(member._id);
+      console.log("Checking if member exists", { checkMemberExist });
+      if (checkMemberExist) await db.delete(member._id);
     }
 
     for (const authAccount of authAccountsToDelete) {

@@ -12,7 +12,7 @@ type ThreadBarProps = {
 };
 
 export const ThreadBar = ({ count, image, timeStamp, onClick, name }: ThreadBarProps) => {
-  if (!count || !timeStamp || !image) return null;
+  if (!count || !timeStamp) return null;
 
   const avatarFallback = name?.charAt(0).toUpperCase();
 
